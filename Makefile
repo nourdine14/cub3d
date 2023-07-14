@@ -6,7 +6,7 @@
 #    By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 12:11:21 by nakebli           #+#    #+#              #
-#    Updated: 2023/07/11 11:31:12 by nakebli          ###   ########.fr        #
+#    Updated: 2023/07/11 13:27:04 by nakebli          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME =    cub3D
 
 SRCS =	main.c \
 	parcing/parcing.c \
+	parcing/parcing_utils.c \
 	parcing/linked_lists_tools.c \
 	get_next_line/get_next_line.c \
 	get_next_line/get_next_line_utils.c \

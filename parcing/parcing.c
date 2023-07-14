@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:52:30 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/11 11:29:49 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/14 09:19:02 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	print_map(t_cub *cub)
 {
-	while (cub != NULL)
+	printf("Map:\n");
+	while (cub)
 	{
-		printf("%s", cub->line);
+		printf("%s\n", cub->line);
 		cub = cub->next;
 	}
 }
@@ -40,15 +41,15 @@ void	read_map(char *av, t_cub **cub)
 	fd = open(av, O_RDONLY);
 	if (fd == -1)
 		print_errors("Error2\n");
-	*cub = ft_lstnew(get_next_line(fd), info);
+	*cub = ft_lstnew(ft_strtrim(get_next_line(fd), "\n"), info);
 	if ((*cub)->line == NULL)
 		print_errors("Error3\n");
 	i = 0;
 	while (1)
 	{
 		i++ ;
-		line = get_next_line(fd);
-		if (!line || line[0] == '\0')
+		line = ft_strtrim(get_next_line(fd), "\n");
+		if (!line)
 			break ;
 		ft_lstadd_back(cub, ft_lstnew(line, info));
 	}
@@ -56,7 +57,39 @@ void	read_map(char *av, t_cub **cub)
 	close(fd);
 }
 
+void	delte_empty_lines(t_cub **cub)
+{
+	t_cub	*tmp;
+	t_cub	*prev;
+	t_cub	*to_delete;
+
+	tmp = *cub;
+	prev = NULL;
+	while (tmp != NULL)
+	{
+		if (tmp->line[0] == '\0')
+		{
+			if (prev == NULL)
+				*cub = tmp->next;
+			else
+				prev->next = tmp->next;
+			to_delete = tmp;
+			tmp = tmp->next;
+			free(to_delete->line);
+			free(to_delete);
+		}
+		else
+		{
+			prev = tmp;
+			tmp = tmp->next;
+		}
+	}
+}
+
 void	parcing(char *av, t_cub **cub)
 {
 	read_map(av, cub);
+	print_map(*cub);
+	delte_empty_lines(cub);
+	print_map(*cub);
 }
