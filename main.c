@@ -6,17 +6,23 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:08:29 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/10 16:17:37 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/15 08:12:29 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 #include "parcing/parcing.h"
 
+void	ft(void)
+{
+	system("leaks cub3D");
+}
+
 int	main(int ac, char **av)
 {
 	t_cub	*cub;
 
+	atexit(ft);
 	if (ac != 2)
 	{
 		printf("Error\n");

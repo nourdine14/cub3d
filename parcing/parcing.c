@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:52:30 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/14 09:19:02 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/15 08:19:35 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_map(t_cub *cub)
 {
-	printf("Map:\n");
+	printf("Map: (height = %d)\n", cub->info->height);
 	while (cub)
 	{
 		printf("%s\n", cub->line);
@@ -22,74 +22,66 @@ void	print_map(t_cub *cub)
 	}
 }
 
-void	print_errors(char *str)
+t_info	*init_infos(t_info **info)
 {
-	printf("%s\n", str);
-	exit(1);
+	*info = ft_calloc(1, sizeof(t_info));
+	if (*info == NULL)
+		print_errors("Error1\n");
+	(*info)->no = ft_calloc(2, sizeof(char *));
+	(*info)->so = ft_calloc(2, sizeof(char *));
+	(*info)->ea = ft_calloc(2, sizeof(char *));
+	(*info)->we = ft_calloc(2, sizeof(char *));
+	(*info)->f = ft_calloc(2, sizeof(char *));
+	(*info)->c = ft_calloc(2, sizeof(char *));
+	return (*info);
 }
 
 void	read_map(char *av, t_cub **cub)
 {
 	t_info	*info;
 	char	*line;
-	int		i;
 	int		fd;
 
-	info = malloc(sizeof(t_info));
-	if (info == NULL)
-		print_errors("Error1\n");
+	init_infos(&info);
 	fd = open(av, O_RDONLY);
 	if (fd == -1)
 		print_errors("Error2\n");
 	*cub = ft_lstnew(ft_strtrim(get_next_line(fd), "\n"), info);
 	if ((*cub)->line == NULL)
 		print_errors("Error3\n");
-	i = 0;
+	info->height = 0;
 	while (1)
 	{
-		i++ ;
+		info->height++ ;
 		line = ft_strtrim(get_next_line(fd), "\n");
 		if (!line)
 			break ;
 		ft_lstadd_back(cub, ft_lstnew(line, info));
 	}
-	info->height = i;
 	close(fd);
 }
 
-void	delte_empty_lines(t_cub **cub)
+int	is_map_line(char *line)
 {
-	t_cub	*tmp;
-	t_cub	*prev;
-	t_cub	*to_delete;
+	int	i;
 
-	tmp = *cub;
-	prev = NULL;
-	while (tmp != NULL)
+	i = 0;
+	if (!ft_strchr(line, 'F') && !ft_strchr(line, 'C'))
 	{
-		if (tmp->line[0] == '\0')
+		while (line[i])
 		{
-			if (prev == NULL)
-				*cub = tmp->next;
-			else
-				prev->next = tmp->next;
-			to_delete = tmp;
-			tmp = tmp->next;
-			free(to_delete->line);
-			free(to_delete);
-		}
-		else
-		{
-			prev = tmp;
-			tmp = tmp->next;
+			if (line[i] == '1' || line[i] == '0')
+				return (1);
+			i++ ;
 		}
 	}
+	return (0);
 }
 
 void	parcing(char *av, t_cub **cub)
 {
 	read_map(av, cub);
-	print_map(*cub);
 	delte_empty_lines(cub);
+	check_cardinal_direction(*cub);
 	print_map(*cub);
 }

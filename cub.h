@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:08:55 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/10 16:50:19 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/14 10:00:08 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,17 @@ typedef struct s_cub
 
 typedef struct s_info
 {
+	char	**no;
+	char	**so;
+	char	**ea;
+	char	**we;
+	char	**f;
+	char	**c;
 	int		height;
 }	t_info;
 
 void	parcing(char *av, t_cub **cub);
 char	*get_next_line(int fd);
+void	print_map(t_cub *cub);
 
 #endif
