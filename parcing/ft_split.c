@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:41:25 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/15 08:11:48 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/15 09:01:25 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static int	ft_numofwords(const char *s, char c)
 	word = 0;
 	while (s[i])
 	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+		if (s[i] != ' ' && s[i] != '\t' && s[i] != c && \
+		(s[i + 1] == ' ' || s[i + 1] == '\t' || \
+		s[i + 1] == c || s[i + 1] == '\0'))
 			word++;
 		i++;
 	}
@@ -31,16 +33,13 @@ static int	ft_numofwords(const char *s, char c)
 static int	ft_wordlen(const char *s, char c)
 {
 	int	i;
-	int	len;
 
 	i = 0;
-	len = 0;
-	while (s[i] != c && s[i] != '\0')
+	while (s[i] != ' ' && s[i] != '\t' && s[i] != c && s[i] != '\0')
 	{
 		i++;
-		len++;
 	}
-	return (len);
+	return (i);
 }
 
 static void	ft_free2d(char **str)

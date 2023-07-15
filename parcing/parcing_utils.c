@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:24:49 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/11 13:28:12 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/15 09:09:42 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (!s)
 		return (NULL);
 	ft_strlcpy(s, (char *)s1 + i, j - i + 2);
-    free((char *)s1);
+	free((char *)s1);
 	return (s);
 }
