@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:39:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/11 21:11:29 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/17 01:48:06 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,43 +29,6 @@ void	draw_square(t_cub *info, int i, int j, int color)
 		}
 		i++;
 	}
-	mlx_put_image_to_window(info->mlx, info->mlx_win, info->img, 0, 0);
-}
-
-void	draw_player(t_cub *info, t_palyer *player)
-{
-	int		a;
-	int		b;
-	double	movestep;
-
-	player->rotation_angle += player->turn_d * player->rotation_speed;
-	movestep = player->walk_d * player->move_speed;
-	player->x += cos(player->rotation_angle) * movestep;
-	player->y += sin(player->rotation_angle) * movestep;
-	draw_circle(info, player);
-}
-
-void	draw_circle(t_cub *info, t_palyer *player)
-{
-	int	a;
-	int	b;
-	int	n;
-
-	n = (2 * player->radius) + 1;
-	a = player->x;
-	b = player->y;
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			a = i - player->radius;
-			b = j - player->radius;
-			if ((a * a) + (b * b) <= player->radius * player->radius + 1)
-				my_mlx_pixel_put(info, a + (player->x + G_SIZE / 2), \
-					b + (player->y + G_SIZE / 2), 0xcc6600);
-		}
-	}
-	mlx_put_image_to_window(info->mlx, info->mlx_win, info->img, 0, 0);
 }
 
 void	draw_map(t_cub *info, char **map)
@@ -95,31 +58,6 @@ void	draw_map(t_cub *info, char **map)
 	}
 }
 
-int	has_a_wall(char **map, int x, int y)
-{
-	int	i;
-	int	j;
-
-	i = G_SIZE;
-	j = G_SIZE;
-	while (i < COL * G_SIZE)
-	{
-		j = G_SIZE;
-		while (j < ROW * G_SIZE)
-		{
-			if (y == j && x == i && map[i / G_SIZE][j / G_SIZE] == '0')
-			{
-				printf("%d\n", i );
-				printf("%d\n", j );
-				return (1);
-			}
-			j += G_SIZE;
-		}
-		i += G_SIZE;
-	}
-	return (0);
-}
-
 int	close_win(void *param)
 {
 	t_cub	*info;
@@ -130,27 +68,16 @@ int	close_win(void *param)
 	return (0);
 }
 
-int	moves(int code, void *param)
+int	has_wall(float x, float y, t_cub *info)
 {
-	t_cub	*info;
-
-	info = (t_cub *)param;
-	if (code == 53)
-	{
-		mlx_destroy_window(info->mlx, info->mlx_win);
-		exit (0);
-	}
-	if (code == 126)
-		info->player->walk_d += 1;
-	if (code == 125)
-		info->player->walk_d -= 1;
-	mlx_clear_window(info->mlx, info->mlx_win);
-	mlx_destroy_image(info->mlx, info->img);
-	info->img = mlx_new_image(info->mlx, COL * G_SIZE, ROW * G_SIZE);
-	info->addr = mlx_get_data_addr(info->img, &info->bits_per_pixel, \
-		&info->line_length, &info->endian);
-	draw_map(info, info->player->map);
-	draw_player(info, info->player);
+	int	i, j;
+	
+	j = x / G_SIZE;
+	i = y / G_SIZE;
+	// x = floor(x / G_SIZE);
+	// y = floor(y / G_SIZE);
+	if (info->player->map[i][j] == '1')
+		return (1);
 	return (0);
 }
 
@@ -162,44 +89,162 @@ void	my_mlx_pixel_put(t_cub *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+void move_object(t_player *player, t_cub *info)
+{
+	float	x;
+	float	y;
+
+	x = player->x;
+	y = player->y;
+    if (player->move_forward)
+    {
+        player->x += MOVE_SPEED * cos(player->rotation_angle);
+        player->y += MOVE_SPEED * sin(player->rotation_angle);
+		if (has_wall(x, player->y, info))
+			player->y = y;
+		if (has_wall(player->x, y, info))
+			player->x = x;
+    }
+    if (player->move_backward)
+    {
+        player->x -= MOVE_SPEED * cos(player->rotation_angle);
+        player->y -= MOVE_SPEED * sin(player->rotation_angle);
+		if (has_wall(x, player->y, info))
+			player->y = y;
+		if (has_wall(player->x, y, info))
+			player->x = x;
+    }
+    if (player->rotate_left)
+    {
+        player->rotation_angle -= player->rotation_speed;
+    }
+    if (player->rotate_right)
+    {
+        player->rotation_angle += player->rotation_speed;
+    }
+}
+
+int handle_keypress(int keycode, void *param)
+{
+	t_cub *info;
+	
+	info = (t_cub *)param;
+	// Key Press
+	if (keycode == 126) // 'W' key
+		info->player->move_forward = 1;
+	else if (keycode == 125) // 'S' key
+		info->player->move_backward = 1;
+	else if (keycode == 123) // 'A' key
+		info->player->rotate_left = 1;
+	else if (keycode == 124) // 'D' key
+		info->player->rotate_right = 1;
+	return (0);
+}
+
+int	handle_keyrelease(int keycode, void *param)
+{
+	t_cub	*info;
+	
+	info = (t_cub *)param;
+	// Key Release
+	if (keycode == 126) // Up arrow key
+		info->player->move_forward = 0;
+	else if (keycode == 125) // Down arrow key
+		info->player->move_backward = 0;
+	else if (keycode == 123) // Left arrow key
+		info->player->rotate_left = 0;
+	else if (keycode == 124) // Right arrow key
+		info->player->rotate_right = 0;
+
+	return (0);
+}
+
+// void	move_object(t_player *player, t_cub *info)
+// {
+// 	float	x;
+// 	float	y;
+
+// 	x = player->x;
+// 	y = player->y;
+// 	if (player->move_forward)
+// 	{
+// 		player->x += MOVE_SPEED * cos(player->rotation_angle);
+// 		player->y += MOVE_SPEED * sin(player->rotation_angle);
+// 		if (has_wall(player->x, player->y, info))
+// 		{
+// 			player->x = x;
+// 			player->y = y;
+// 		}
+// 	}
+// 	else if (player->move_backward)
+// 	{
+// 		player->x -= MOVE_SPEED * cos(player->rotation_angle);
+// 		player->y -= MOVE_SPEED * sin(player->rotation_angle);
+// 		if (has_wall(player->x, player->y, info))
+// 		{
+// 			player->x = x;
+// 			player->y = y;
+// 		}
+// 	}
+// 	else if (player->rotate_right)
+// 		player->rotation_angle += ROTATION_SPEED;
+// 	else if (player->rotate_right)
+// 		player->rotation_angle -= ROTATION_SPEED;
+// }
+
+int	move_and_draw(void *param)
+{
+	t_cub	*info;
+
+	info = (t_cub *)param;
+	info->img = mlx_new_image(info->mlx, COL * G_SIZE, ROW * G_SIZE);
+	info->addr = mlx_get_data_addr(info->img, &info->bits_per_pixel, \
+		&info->line_length, &info->endian);
+
+	draw_map(info, info->player->map);
+
+	move_object(info->player, info);
+
+	draw_rays(info);
+
+	draw_player(info, info->player);
+
+	mlx_clear_window(info->mlx, info->mlx_win);
+	mlx_put_image_to_window(info->mlx, info->mlx_win, info->img, 0, 0);
+	mlx_destroy_image(info->mlx, info->img);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_cub		info;
-	t_palyer	player;
+	t_player	player;
 	char *map[] = {
-        // "11111111111",
-        // "10000000111",
-        // "10011100001",
-        // "10000000111",
-        // "10000000011",
-        // "11000001011",
-        // "11100001011",
-        // "11111111111",
         "111111111111111",
         "100000000000101",
         "100101000000101",
         "111110000010101",
         "100000000010101",
-        "100000001111101",
+        "100000001101101",
         "100000000000001",
         "1000000N0000001",
-        "111111010111101",
-        "100000010000001",
+        "111111000111101",
+        "100000000000001",
         "111111111111111"
 	};
-
 	info.player = &player;
 	init_player(&player, map);
 	info.mlx = mlx_init();
 	info.mlx_win = mlx_new_window(info.mlx, COL * G_SIZE, \
 		ROW * G_SIZE, "Cub3D");
-	info.img = mlx_new_image(info.mlx, COL * G_SIZE, ROW * G_SIZE);
-	info.addr = mlx_get_data_addr(info.img, &info.bits_per_pixel, \
-		&info.line_length, &info.endian);
-	draw_map(&info, map);
-	draw_player(&info, &player);
-	mlx_hook(info.mlx_win, 2, 0, moves, &info);
+	// info.img = mlx_new_image(info.mlx, COL * G_SIZE, ROW * G_SIZE);
+	// info.addr = mlx_get_data_addr(info.img, &info.bits_per_pixel, \
+	// 	&info.line_length, &info.endian);
 	mlx_hook(info.mlx_win, 17, 0, close_win, &info);
+	mlx_hook(info.mlx_win, 2, 0, handle_keypress, &info);
+	mlx_hook(info.mlx_win, 3, 0, handle_keyrelease, &info);
+	mlx_loop_hook(info.mlx, move_and_draw, &info);
 	mlx_loop(info.mlx);
+	// mlx_hook(info.mlx_win, 2, 0, moves, &info);
 	return (0);
 }

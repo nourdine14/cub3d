@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/11 18:56:45 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/17 01:43:12 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,40 @@
 # define G_SIZE 64
 # define COL 15
 # define ROW 11
+# define MOVE_SPEED 1
+// # define ROTATION_SPEED 0.01
+# define NUM_OF_RAYS 960
+# define VIEW_ANGLE 60 // in degree
+# define DG 0.01745329 // one degree in radian
 // # define HEIGHT COL * G_SIZE
 // # define WIDTH
+
+typedef struct s_var
+{
+	float	x;
+	float	y;
+	float	x1;
+	float	y1;
+	int		i;
+	int		j;
+}	t_var;
 
 typedef struct s_player
 {
 	char	**map;
-	int		x;
-	int		y;
+	float	x;
+	float	y;
 	int		radius;
 	int		turn_d;
 	int		walk_d;
+	int		rotate_left;
+	int		rotate_right;
+	int		move_forward;
+	int		move_backward;
 	double	rotation_angle;
 	double	rotation_speed;
 	int		move_speed;
-}	t_palyer;
+}	t_player;
 
 typedef struct s_cub
 {
@@ -55,9 +74,12 @@ typedef struct s_cub
 }	t_cub;
 
 
-void	init_player(t_palyer *player, char **map);
-int		has_a_wall(char **map, int x, int y);
-void	draw_circle(t_cub *info, t_palyer *player);
+void	init_player(t_player *player, char **map);
+void	draw_player(t_cub *info, t_player *player);
+int		has_wall(float x, float y, t_cub *info);
+void	draw_circle(t_cub *info, t_player *player);
 void	my_mlx_pixel_put(t_cub *data, int x, int y, int color);
+void	dda(int X0, int Y0, int X1, int Y1, t_cub *info, int color);
+void	draw_rays(t_cub *info);
 
 #endif

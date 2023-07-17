@@ -6,16 +6,16 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/11 21:01:19 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/17 01:55:42 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	full_player_info(t_palyer *player, char c, int i, int j)
+void	full_player_info(t_player *player, char c, int i, int j)
 {
-	player->x = i * G_SIZE;
-	player->y = j * G_SIZE;
+	player->x = (i * G_SIZE) + MOVE_SPEED * cos(player->rotation_angle) + G_SIZE / 2;
+	player->y = (j * G_SIZE) + MOVE_SPEED * sin(player->rotation_angle) + G_SIZE / 2;
 	if (c == 'N')
 	{
 		player->turn_d = 1;
@@ -38,7 +38,7 @@ void	full_player_info(t_palyer *player, char c, int i, int j)
 	}
 }
 
-void	get_x_y_position(t_palyer *player, char **map)
+void	get_x_y_position(t_player *player, char **map)
 {
 	int	i;
 	int	j;
@@ -62,14 +62,57 @@ void	get_x_y_position(t_palyer *player, char **map)
 	}
 }
 
-void	init_player(t_palyer *player, char **map)
+void	init_player(t_player *player, char **map)
 {
 	player->map = map;
 	get_x_y_position(player, map);
 	player->radius = 5;
 	player->turn_d = 1;
 	player->walk_d = 1;
-	player->rotation_angle = M_PI_2;
+	player->rotate_left = 0;
+	player->rotate_right = 0;
+	player->move_forward = 0;
+	player->move_backward = 0;
+	player->rotation_angle = M_PI/2;
 	player->move_speed = 1;
-	player->rotation_speed = 3 * (M_PI / 180);
+	player->rotation_speed = 2 * (M_PI / 180);
+}
+
+void	draw_player(t_cub *info, t_player *player)
+{
+	double	movestep;
+	int		a;
+	int		x;
+	int		y;
+	int		x1;
+	int		y1;
+
+	x = player->x;
+	y = player->y;
+	x1 = x + (cos(info->player->rotation_angle) * 30);
+	y1 = y + (sin(info->player->rotation_angle) * 30);
+	draw_circle(info, player);
+	dda(x, y, x1, y1, info, 0x008000);
+}
+
+void	draw_circle(t_cub *info, t_player *player)
+{
+	int	a;
+	int	b;
+	int	n;
+
+	n = (2 * player->radius) + 1;
+	a = player->x;
+	b = player->y;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			a = i - player->radius;
+			b = j - player->radius;
+			if ((a * a) + (b * b) <= player->radius * player->radius + 1)
+				my_mlx_pixel_put(info, a + player->x, \
+					b + player->y, 0xcc6600);
+		}
+	}
 }
