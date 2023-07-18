@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/17 01:55:42 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/18 04:30:44 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,21 @@ void	init_player(t_player *player, char **map)
 	player->rotate_right = 0;
 	player->move_forward = 0;
 	player->move_backward = 0;
-	player->rotation_angle = M_PI/2;
+	player->rotation_angle = M_PI/6;
 	player->move_speed = 1;
 	player->rotation_speed = 2 * (M_PI / 180);
 }
 
 void	draw_player(t_cub *info, t_player *player)
 {
-	double	movestep;
 	int		a;
-	int		x;
-	int		y;
 	int		x1;
 	int		y1;
 
-	x = player->x;
-	y = player->y;
-	x1 = x + (cos(info->player->rotation_angle) * 30);
-	y1 = y + (sin(info->player->rotation_angle) * 30);
+	x1 = player->x + (cos(info->player->rotation_angle) * 30);
+	y1 =  player->y + (sin(info->player->rotation_angle) * 30);
 	draw_circle(info, player);
-	dda(x, y, x1, y1, info, 0x008000);
+	dda(player->x,  player->y, x1, y1, info, 0x008000);
 }
 
 void	draw_circle(t_cub *info, t_player *player)

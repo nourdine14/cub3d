@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:39:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/17 01:48:06 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/18 07:53:54 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	close_win(void *param)
 
 int	has_wall(float x, float y, t_cub *info)
 {
-	int	i, j;
+	int	i;
+	int	j;
 	
 	j = x / G_SIZE;
 	i = y / G_SIZE;
@@ -98,11 +99,11 @@ void move_object(t_player *player, t_cub *info)
 	y = player->y;
     if (player->move_forward)
     {
-        player->x += MOVE_SPEED * cos(player->rotation_angle);
-        player->y += MOVE_SPEED * sin(player->rotation_angle);
-		if (has_wall(x, player->y, info))
+        x += MOVE_SPEED * cos(player->rotation_angle);
+        y += MOVE_SPEED * sin(player->rotation_angle);
+		if (!has_wall(player->x, y, info))
 			player->y = y;
-		if (has_wall(player->x, y, info))
+		if (!has_wall(x, player->y, info))
 			player->x = x;
     }
     if (player->move_backward)
@@ -130,6 +131,11 @@ int handle_keypress(int keycode, void *param)
 	
 	info = (t_cub *)param;
 	// Key Press
+	if (keycode == 53)
+	{
+		mlx_destroy_window(info->mlx, info->mlx_win);
+		exit (0);
+	}
 	if (keycode == 126) // 'W' key
 		info->player->move_forward = 1;
 	else if (keycode == 125) // 'S' key

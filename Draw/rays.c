@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:56:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/17 01:57:13 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:00:43 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,13 @@ void	until_find_wall(t_cub *info, t_var *var, float ray_angle)
 	}
 }
 
-float	scale_angle(float angle)
+double	scale_angle(double angle)
 {
 	double	normalized;
 	
 	normalized = fmod(angle, 2 * M_PI);
 	if (normalized < 0)
 		normalized += 2 * M_PI;
-
 	return (normalized);
 }
 
@@ -57,12 +56,10 @@ void	draw_rays(t_cub *info)
 	
 	init_var(&var);
 	ray_angle = info->player->rotation_angle - ((VIEW_ANGLE / 2) * DG);
-	// printf("ray angle = %f\n", ray_angle * 180 / M_PI);
 	while (var.i < NUM_OF_RAYS)
 	{
-		ray_angle = scale_angle(ray_angle);
-		dda(info->player->x, info->player->y, info->player->x + cos(ray_angle) * 3000, \
-			info->player->y + sin(ray_angle) * 3000, info, 0xe30000);
+	ray_angle = scale_angle(ray_angle);
+	cast_rays(info, ray_angle);
 		var.i++;
 		ray_angle += (VIEW_ANGLE * DG / NUM_OF_RAYS);
 	}

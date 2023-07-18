@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/17 01:43:12 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/18 06:09:57 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
+# include <limits.h>
 
 # define WIDTH_SIZE 32
 # define S_WIDTH 16
@@ -26,7 +28,7 @@
 # define G_SIZE 64
 # define COL 15
 # define ROW 11
-# define MOVE_SPEED 1
+# define MOVE_SPEED 2
 // # define ROTATION_SPEED 0.01
 # define NUM_OF_RAYS 960
 # define VIEW_ANGLE 60 // in degree
@@ -47,8 +49,8 @@ typedef struct s_var
 typedef struct s_player
 {
 	char	**map;
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 	int		radius;
 	int		turn_d;
 	int		walk_d;
@@ -81,5 +83,6 @@ void	draw_circle(t_cub *info, t_player *player);
 void	my_mlx_pixel_put(t_cub *data, int x, int y, int color);
 void	dda(int X0, int Y0, int X1, int Y1, t_cub *info, int color);
 void	draw_rays(t_cub *info);
+void	cast_rays(t_cub *info, float ray_angle);
 
 #endif
