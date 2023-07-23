@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:32:28 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/11 10:58:40 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/22 04:56:00 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_lstadd_back(t_cub **cub, t_cub *new)
 	}
 }
 
-t_cub	*ft_lstnew(char *line, t_info *info)
+t_cub	*ft_lstnew(char *line, t_info *info, t_cub *prev)
 {
 	t_cub	*new;
 
@@ -61,5 +61,16 @@ t_cub	*ft_lstnew(char *line, t_info *info)
 	(new)->line = line;
 	new->info = info;
 	(new)->next = NULL;
+	(new)->prev = prev;
 	return (new);
+}
+
+int	towd_arr_size(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i] != NULL)
+		i++;
+	return (i);
 }

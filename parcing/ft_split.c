@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:41:25 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/15 09:01:25 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/15 09:24:40 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	**fill2darr(const char *s, char c, int num, char **splitted)
 	i = 0;
 	while (i < num)
 	{
-		while (*s == c)
+		while (*s == c || *s == '\t' || *s == ' ')
 			s++;
 		len = ft_wordlen(s, c);
 		splitted[i] = (char *)malloc(sizeof(char) * (len + 1));

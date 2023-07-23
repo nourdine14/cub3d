@@ -6,11 +6,21 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:24:49 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/15 09:09:42 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/20 08:21:03 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parcing.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		++i;
+	return (s1[i] - s2[i]);
+}
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
@@ -48,7 +58,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (ft_strchr(set, s1[j]) && j > 0)
 		j--;
 	if (i > j)
-		return (ft_strdup(""));
+		return (free((char *)s1), ft_strdup(""));
 	s = malloc(j - i + 2);
 	if (!s)
 		return (NULL);

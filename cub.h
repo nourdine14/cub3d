@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:08:55 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/14 10:00:08 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/22 04:55:46 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_cub
 	char					*line;
 	struct s_info			*info;
 	struct s_cub			*next;
+	struct s_cub			*prev;
 }	t_cub;
 
 typedef struct s_info
