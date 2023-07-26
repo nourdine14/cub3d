@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:56:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/18 18:00:43 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:35:02 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	until_find_wall(t_cub *info, t_var *var, float ray_angle)
 	}
 }
 
-double	scale_angle(double angle)
+float	scale_angle(float angle)
 {
-	double	normalized;
+	float	normalized;
 	
 	normalized = fmod(angle, 2 * M_PI);
 	if (normalized < 0)
@@ -58,8 +58,8 @@ void	draw_rays(t_cub *info)
 	ray_angle = info->player->rotation_angle - ((VIEW_ANGLE / 2) * DG);
 	while (var.i < NUM_OF_RAYS)
 	{
-	ray_angle = scale_angle(ray_angle);
-	cast_rays(info, ray_angle);
+		ray_angle = scale_angle(ray_angle);
+		cast_rays(info, ray_angle, var.i);
 		var.i++;
 		ray_angle += (VIEW_ANGLE * DG / NUM_OF_RAYS);
 	}

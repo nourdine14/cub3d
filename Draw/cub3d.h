@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/18 06:09:57 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:34:06 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@
 # define NUM_OF_RAYS 960
 # define VIEW_ANGLE 60 // in degree
 # define DG 0.01745329 // one degree in radian
+
+# define MINI_MAP_SCALE 0.2
+
+# define WALL_WIDTH 1
 // # define HEIGHT COL * G_SIZE
 // # define WIDTH
 
@@ -45,6 +49,24 @@ typedef struct s_var
 	int		i;
 	int		j;
 }	t_var;
+
+typedef struct s_ray
+{
+	float	xherizontalle_hit_wall;
+	float	yherizontalle_hit_wall;
+	float	xvertical_hit_wall;
+	float	yvertical_hit_wall;
+	float	ix;
+	float	iy;
+	float	ystep;
+	float	xstep;
+	float	xinter;
+	float	yinter;
+	int		i;
+	int		j;
+	bool	b;
+	bool	a;
+}	t_ray;
 
 typedef struct s_player
 {
@@ -83,6 +105,9 @@ void	draw_circle(t_cub *info, t_player *player);
 void	my_mlx_pixel_put(t_cub *data, int x, int y, int color);
 void	dda(int X0, int Y0, int X1, int Y1, t_cub *info, int color);
 void	draw_rays(t_cub *info);
-void	cast_rays(t_cub *info, float ray_angle);
+void	cast_rays(t_cub *info, float ray_angle, int i);
+bool	ray_lookig_left(double angle);
+bool	ray_lookig_up(double angle);
+float	scale_angle(float angle);
 
 #endif

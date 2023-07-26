@@ -6,15 +6,17 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:12:10 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/14 22:51:47 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/22 21:12:13 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <stdio.h>
+#include <stdio.h>
+// #include "MLX42/MLX42.h"
+// #include "/users/oaboulgh/Desktop/MLX42/include/MLX42/MLX42
+#define WIDTH 720
+#define HEIGHT 480
 
 typedef struct s_info
 {
@@ -27,70 +29,32 @@ typedef struct s_info
 	float	rot;
 }	t_info;
 
-void dda(float X0, float Y0, float X1, float Y1, t_info *info)
+void my_keyhook(mlx_key_data_t keydata, void* param)
 {
-	// calculate dx & dy
-	float	s;
-	float	s1;
+	// If we PRESS the 'J' key, print "Hello".
+	if (keydata.key == MLX_KEY_J && keydata.action == MLX_PRESS)
+		puts("Hello ");
 
-	s = X1;
-	s1 = Y1;
-	X1 = (s * cos(info->rot) - Y1 * sin(info->rot));
-	Y1 = (s * sin(info->rot) + Y1 * cos(info->rot));
-	int dx = X1 - X0;
-	int dy = Y1 - Y0;
+	// If we RELEASE the 'K' key, print "World".
+	if (keydata.key == MLX_KEY_K && keydata.action == MLX_RELEASE)
+		puts("World");
 
-	// calculate steps required for generating pixels
-	int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
-
-	// calculate increment in x & y for each steps
-	float Xinc = dx / (float)steps;
-	float Yinc = dy / (float)steps;
-
-	// Put pixel for each step
-	float X = X0;
-	float Y = Y0;
-	for (int i = 0; i <= steps; i++) {
-		mlx_pixel_put(info->mlx, info->mlx_win, X, Y, 0xcc66600); // put pixel at (X,Y)
-		X += Xinc; // increment in x at each step
-		Y += Yinc; // increment in y at each step
-	}
+	// If we HOLD the 'L' key, print "!".
+	if (keydata.key == MLX_KEY_L && keydata.action == MLX_REPEAT)
+		puts("!");
 }
 
-int	func(int keycode, void *param)
+int32_t	main(void)
 {
-	t_info *info;
+	mlx_t* mlx;
 
-	info = (t_info *)param;
-	if (keycode == 124)
-	{
-		info->rot += 0.5;
-		mlx_clear_window(info->mlx, info->mlx_win);
-		dda(info->x0, info->y0, info->x1, info->y1, info);
-	}
-	if (keycode == 123)
-	{
-		info->rot -= 0.5;
-		mlx_clear_window(info->mlx, info->mlx_win);
-		dda(info->x0, info->y0, info->x1, info->y1, info);
-	}
-	return (0);
-}
+	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+		return (EXIT_FAILURE);
 
-int	main()
-{
-	t_info	info;
-	info.x0 = 500;
-	info.y0 = 500;
-	info.x1 = 50;
-	info.y1 = 50;
-	info.rot = M_PI_2;
-
-	info.mlx = mlx_init();
-	info.mlx_win = mlx_new_window(info.mlx, 1000, 1000, "line");
-	dda(info.x0, info.y0, info.x1, info.y1, &info);
-	mlx_hook(info.mlx_win, 2, 0, func, &info);
-	mlx_loop(info.mlx);
+	mlx_key_hook(mlx, &my_keyhook, NULL);
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
+	return (EXIT_SUCCESS);
 }
 
 /*

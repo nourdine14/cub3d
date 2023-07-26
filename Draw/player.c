@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/18 04:30:44 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/20 06:10:10 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	full_player_info(t_player *player, char c, int i, int j)
 {
 	player->x = (i * G_SIZE) + MOVE_SPEED * cos(player->rotation_angle) + G_SIZE / 2;
 	player->y = (j * G_SIZE) + MOVE_SPEED * sin(player->rotation_angle) + G_SIZE / 2;
+	// player->x++;
+	// player->y++;
 	if (c == 'N')
 	{
 		player->turn_d = 1;
@@ -73,7 +75,7 @@ void	init_player(t_player *player, char **map)
 	player->rotate_right = 0;
 	player->move_forward = 0;
 	player->move_backward = 0;
-	player->rotation_angle = M_PI/6;
+	player->rotation_angle = -M_PI_2;
 	player->move_speed = 1;
 	player->rotation_speed = 2 * (M_PI / 180);
 }
@@ -81,13 +83,14 @@ void	init_player(t_player *player, char **map)
 void	draw_player(t_cub *info, t_player *player)
 {
 	int		a;
-	int		x1;
-	int		y1;
+	float	x1;
+	float	y1;
 
-	x1 = player->x + (cos(info->player->rotation_angle) * 30);
-	y1 =  player->y + (sin(info->player->rotation_angle) * 30);
+	x1 = player->x + (cos(info->player->rotation_angle) * 40);
+	y1 =  player->y + (sin(info->player->rotation_angle) * 40);
 	draw_circle(info, player);
-	dda(player->x,  player->y, x1, y1, info, 0x008000);
+	dda(MINI_MAP_SCALE * player->x,  MINI_MAP_SCALE * player->y, \
+	MINI_MAP_SCALE * x1, MINI_MAP_SCALE * y1, info, 0x008000);
 }
 
 void	draw_circle(t_cub *info, t_player *player)
@@ -106,8 +109,10 @@ void	draw_circle(t_cub *info, t_player *player)
 			a = i - player->radius;
 			b = j - player->radius;
 			if ((a * a) + (b * b) <= player->radius * player->radius + 1)
-				my_mlx_pixel_put(info, a + player->x, \
-					b + player->y, 0xcc6600);
+			{
+				my_mlx_pixel_put(info, MINI_MAP_SCALE * (a + player->x), \
+					MINI_MAP_SCALE *( b + player->y), 0xcc6600);
+			}
 		}
 	}
 }

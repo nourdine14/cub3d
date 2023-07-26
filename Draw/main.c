@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:39:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/18 07:53:54 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/26 02:30:06 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void	draw_square(t_cub *info, int i, int j, int color)
 
 	b = i;
 	a = j;
-	while (i < (b + G_SIZE - 1))
+	while (i < (b + G_SIZE))
 	{
 		j = a;
-		while (j < (a + G_SIZE - 1))
+		while (j < (a + G_SIZE))
 		{
-			my_mlx_pixel_put(info, i, j, color);
+			my_mlx_pixel_put(info, MINI_MAP_SCALE * i,\
+				MINI_MAP_SCALE * j, color);
 			j++;
 		}
 		i++;
@@ -75,8 +76,16 @@ int	has_wall(float x, float y, t_cub *info)
 	
 	j = x / G_SIZE;
 	i = y / G_SIZE;
-	// x = floor(x / G_SIZE);
-	// y = floor(y / G_SIZE);
+	if (i > ROW || j > COL || i < 0 || j < 0)
+	{
+		printf("x = %d\n", i);
+		printf("y = %d\n", j);
+		printf("\n");
+		printf("\n");
+		printf("\n");
+		sleep(2);
+		return (1);
+	}
 	if (info->player->map[i][j] == '1')
 		return (1);
 	return (0);
@@ -94,25 +103,34 @@ void move_object(t_player *player, t_cub *info)
 {
 	float	x;
 	float	y;
+	float	angle;
+	int		varx;
+	int		vary;
+	int		var;
 
+	angle = player->rotation_angle;
 	x = player->x;
 	y = player->y;
+	angle = scale_angle(angle);
+	// varx = 15 * cos(angle);
+	// vary = 15 * sin(angle);
     if (player->move_forward)
     {
-        x += MOVE_SPEED * cos(player->rotation_angle);
-        y += MOVE_SPEED * sin(player->rotation_angle);
-		if (!has_wall(player->x, y, info))
+        x += MOVE_SPEED * cos(angle);
+        y += MOVE_SPEED * sin(angle);
+		if (!has_wall(player->x, y , info))
 			player->y = y;
 		if (!has_wall(x, player->y, info))
 			player->x = x;
     }
+	// defer:
     if (player->move_backward)
     {
-        player->x -= MOVE_SPEED * cos(player->rotation_angle);
-        player->y -= MOVE_SPEED * sin(player->rotation_angle);
-		if (has_wall(x, player->y, info))
+		x -= MOVE_SPEED * cos(player->rotation_angle);
+		y -= MOVE_SPEED * sin(player->rotation_angle);
+		if (!has_wall(player->x, y, info))
 			player->y = y;
-		if (has_wall(player->x, y, info))
+		if (!has_wall(x, player->y, info))
 			player->x = x;
     }
     if (player->rotate_left)
@@ -165,38 +183,36 @@ int	handle_keyrelease(int keycode, void *param)
 	return (0);
 }
 
-// void	move_object(t_player *player, t_cub *info)
-// {
-// 	float	x;
-// 	float	y;
+void	color_background(t_cub *info)
+{
+	int	i;
+	int	j;
 
-// 	x = player->x;
-// 	y = player->y;
-// 	if (player->move_forward)
-// 	{
-// 		player->x += MOVE_SPEED * cos(player->rotation_angle);
-// 		player->y += MOVE_SPEED * sin(player->rotation_angle);
-// 		if (has_wall(player->x, player->y, info))
-// 		{
-// 			player->x = x;
-// 			player->y = y;
-// 		}
-// 	}
-// 	else if (player->move_backward)
-// 	{
-// 		player->x -= MOVE_SPEED * cos(player->rotation_angle);
-// 		player->y -= MOVE_SPEED * sin(player->rotation_angle);
-// 		if (has_wall(player->x, player->y, info))
-// 		{
-// 			player->x = x;
-// 			player->y = y;
-// 		}
-// 	}
-// 	else if (player->rotate_right)
-// 		player->rotation_angle += ROTATION_SPEED;
-// 	else if (player->rotate_right)
-// 		player->rotation_angle -= ROTATION_SPEED;
-// }
+	j = 0;
+	while (j < ROW * G_SIZE / 2)
+	{
+		i = 0;
+		while (i < COL * G_SIZE)
+		{
+			my_mlx_pixel_put(info, i, j, 0x99d6ff);
+			i++;
+		}
+		j++;
+	}
+	i = 0;
+	j = ROW * G_SIZE / 2;
+	while (j < ROW * G_SIZE)
+	{
+		i = 0;
+		while (i < COL * G_SIZE)
+		{
+			my_mlx_pixel_put(info, i, j, 0x196719);
+			i++;
+		}
+		j++;
+	}
+	
+}
 
 int	move_and_draw(void *param)
 {
@@ -206,14 +222,16 @@ int	move_and_draw(void *param)
 	info->img = mlx_new_image(info->mlx, COL * G_SIZE, ROW * G_SIZE);
 	info->addr = mlx_get_data_addr(info->img, &info->bits_per_pixel, \
 		&info->line_length, &info->endian);
-
-	draw_map(info, info->player->map);
-
-	move_object(info->player, info);
+	
+	color_background(info);
 
 	draw_rays(info);
 
+	draw_map(info, info->player->map);
+
 	draw_player(info, info->player);
+
+	move_object(info->player, info);
 
 	mlx_clear_window(info->mlx, info->mlx_win);
 	mlx_put_image_to_window(info->mlx, info->mlx_win, info->img, 0, 0);
@@ -229,7 +247,7 @@ int	main(int ac, char **av)
         "111111111111111",
         "100000000000101",
         "100101000000101",
-        "111110000010101",
+        "101110000010101",
         "100000000010101",
         "100000001101101",
         "100000000000001",
