@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 04:52:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/22 21:01:56 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/26 07:11:34 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void	draw_wall(t_cub *info, t_ray ray, float ray_angle, int i)
 	// printf("wall projection %f\n", wall_projected);
 	if (wall_projected > G_SIZE * ROW / 2)
 		wall_projected = G_SIZE * ROW / 2;
-	int	color;
+	// int	color;
 
 	draw_rect(i, (G_SIZE * ROW / 2) - (wall_projected), \
 	WALL_WIDTH, 2 * wall_projected, info, 0xd2a679);

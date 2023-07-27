@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:56:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/21 15:35:02 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/26 07:11:41 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	init_var(t_var *var)
 void	until_find_wall(t_cub *info, t_var *var, float ray_angle)
 {
 	float	point;
-	float	x;
-	float	y;
+	// float	x;
+	// float	y;
 
 	point = 0;
 	var->x = info->player->x - (cos(ray_angle) * point);

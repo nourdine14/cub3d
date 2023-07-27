@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/24 23:34:06 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/27 07:19:58 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define MINI_MAP_SCALE 0.2
 
 # define WALL_WIDTH 1
+# define SPACE_FROM_WALL 16
 // # define HEIGHT COL * G_SIZE
 // # define WIDTH
 

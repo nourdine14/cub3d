@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/20 06:10:10 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/26 07:11:46 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,25 @@ void	full_player_info(t_player *player, char c, int i, int j)
 	// player->y++;
 	if (c == 'N')
 	{
+		player->rotation_angle = -M_PI_2;
 		player->turn_d = 1;
 		player->walk_d = 1;
 	}
 	if (c == 'E')
 	{
+		player->rotation_angle = -M_PI;
 		player->turn_d = 1;
 		player->walk_d = 1;
 	}
 	if (c == 'W')
 	{
+		player->rotation_angle = M_PI;
 		player->turn_d = -1;
 		player->walk_d = -1;
 	}
 	if (c == 'S')
 	{
+		player->rotation_angle = M_PI_2;
 		player->turn_d = -1;
 		player->walk_d = -1;
 	}
@@ -75,14 +79,13 @@ void	init_player(t_player *player, char **map)
 	player->rotate_right = 0;
 	player->move_forward = 0;
 	player->move_backward = 0;
-	player->rotation_angle = -M_PI_2;
 	player->move_speed = 1;
 	player->rotation_speed = 2 * (M_PI / 180);
 }
 
 void	draw_player(t_cub *info, t_player *player)
 {
-	int		a;
+	// int		a;
 	float	x1;
 	float	y1;
 
