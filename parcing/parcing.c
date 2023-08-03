@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:52:30 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/23 00:57:29 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/03 13:59:34 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	print_map(t_cub *cub)
 	printf("Map: (height = %d)\n", cub->info->height);
 	while (cub)
 	{
-		printf("%s\n", cub->line);
+		printf("|%s|\n", cub->line);
 		cub = cub->next;
 	}
-	exit(1);
 }
 
 t_info	*init_infos(t_info **info)
@@ -28,12 +27,12 @@ t_info	*init_infos(t_info **info)
 	*info = ft_calloc(1, sizeof(t_info));
 	if (*info == NULL)
 		print_errors("Error1\n");
-	(*info)->no = ft_calloc(2, sizeof(char *));
-	(*info)->so = ft_calloc(2, sizeof(char *));
-	(*info)->ea = ft_calloc(2, sizeof(char *));
-	(*info)->we = ft_calloc(2, sizeof(char *));
-	(*info)->f = ft_calloc(2, sizeof(char *));
-	(*info)->c = ft_calloc(2, sizeof(char *));
+	(*info)->no = ft_calloc(sizeof(char *), 1);
+	(*info)->so = ft_calloc(sizeof(char *), 1);
+	(*info)->ea = ft_calloc(sizeof(char *), 1);
+	(*info)->we = ft_calloc(sizeof(char *), 1);
+	(*info)->px = -1;
+	(*info)->py = -1;
 	return (*info);
 }
 
@@ -62,25 +61,6 @@ void	read_map(char *av, t_cub **cub)
 	close(fd);
 }
 
-int	is_map_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	if (!line[0])
-		return (0);
-	while (line[i])
-	{
-		if (line[i] != '1' && line[i] != '0' && \
-		line[i] != ' ' && line[i] != '\t' && \
-		line[i] != 'N' && line[i] != 'S' && \
-		line[i] != 'W' && line[i] != 'E')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 void	print_args(t_cub *cub)
 {
 	int	i;
@@ -103,20 +83,38 @@ void	print_args(t_cub *cub)
 		printf("%s  ", cub->info->we[i++]);
 	printf("\n");
 	i = 0;
-	while (cub->info->f[i])
-		printf("%s  ", cub->info->f[i++]);
+	printf("flore RGB :");
+	while (i < 3)
+		printf("%d  ", cub->info->f[i++]);
 	printf("\n");
 	i = 0;
-	while (cub->info->c[i])
-		printf("%s  ", cub->info->c[i++]);
+	printf("ceiling RGB :");
+	while (i < 3)
+		printf("%d  ", cub->info->c[i++]);
 	printf("\n");
+	exit(0);
+}
+
+void	free_map(t_cub *cub)
+{
+	t_cub	*tmp;
+
+	while (cub)
+	{
+		tmp = cub;
+		cub = cub->next;
+		free(tmp->line);
+		free(tmp);
+	}
 }
 
 void	parcing(char *av, t_cub **cub)
 {
 	read_map(av, cub);
-	delte_empty_lines(cub);
-	check_cardinal_direction(*cub);
-	print_map(*cub);
-	print_args(*cub);
+	free_map(*cub);
+	return ;
+	// delte_empty_lines(cub);
+	// check_cardinal_direction(*cub);
+	// print_map(*cub);
+	// print_args(*cub);
 }

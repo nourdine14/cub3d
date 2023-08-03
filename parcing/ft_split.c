@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 05:41:25 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/15 09:24:40 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/31 05:50:05 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ static char	**fill2darr(const char *s, char c, int num, char **splitted)
 	return (splitted);
 }
 
-char	**ft_split(char	const *s, char c, char **splited)
+char	**ft_split(char	const *s, char c)
 {
+	char	**splited;
 	int		num;
 
-	if (splited)
-		free(splited);
+	splited = NULL;
 	if (s == NULL)
 		return (NULL);
 	num = ft_numofwords(s, c);

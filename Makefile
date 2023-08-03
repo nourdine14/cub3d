@@ -6,7 +6,7 @@
 #    By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 12:11:21 by nakebli           #+#    #+#              #
-#    Updated: 2023/07/23 01:53:17 by nakebli          ###   ########.fr        #
+#    Updated: 2023/07/31 05:58:05 by nakebli          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ NAME =    cub3D
 
 SRCS =	main.c \
 	parcing/parcing.c \
+	parcing/delete_empty_lines.c \
+	parcing/ft_atoi.c \
 	parcing/ft_split.c \
 	parcing/free.c \
 	parcing/parcing_utils.c \

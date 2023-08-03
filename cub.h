@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:08:55 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/22 04:55:46 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/07/31 04:51:15 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ typedef struct s_info
 	char	**so;
 	char	**ea;
 	char	**we;
-	char	**f;
-	char	**c;
+	int		f[3];
+	int		c[3];
+	int		px;
+	int		py;
 	int		height;
 }	t_info;
 
