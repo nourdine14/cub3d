@@ -1,6 +1,15 @@
 {
 	"files.associations": {
 		"math.h": "c",
-		"mlx42_int.h": "c"
+		"mlx42_int.h": "c",
+		"stdio.h": "c",
+		"mlx42.h": "c",
+		"memory.h": "c",
+		"stdlib.h": "c",
+		"limits.h": "c",
+		"algorithm": "c",
+		"chrono": "c",
+		"limits": "c",
+		"ratio": "c"
 	}
 }

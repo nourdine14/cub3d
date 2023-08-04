@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/26 07:11:46 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/04 07:37:43 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ void	full_player_info(t_player *player, char c, int i, int j)
 {
 	player->x = (i * G_SIZE) + MOVE_SPEED * cos(player->rotation_angle) + G_SIZE / 2;
 	player->y = (j * G_SIZE) + MOVE_SPEED * sin(player->rotation_angle) + G_SIZE / 2;
-	// player->x++;
-	// player->y++;
+	// player->mini_map_x = (i * G_SIZE * MINI_MAP_SCALE) + MOVE_SPEED * cos(player->rotation_angle) + G_SIZE * MINI_MAP_SCALE / 2;
+	
+	// player->mini_map_y = (j * G_SIZE * MINI_MAP_SCALE) + MOVE_SPEED * sin(player->rotation_angle) + G_SIZE * MINI_MAP_SCALE / 2;
+	
+	player->mouse_x = player->x;
+	player->mouse_y = player->y;
 	if (c == 'N')
 	{
 		player->rotation_angle = -M_PI_2;
@@ -59,7 +63,7 @@ void	get_x_y_position(t_player *player, char **map)
 			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'E' \
 				|| map[i][j] == 'S')
 			{
-				full_player_info(player, map[i][j], i, j);
+				full_player_info(player, map[i][j], j, i);
 				return ;
 			}
 			j++;
@@ -71,6 +75,7 @@ void	get_x_y_position(t_player *player, char **map)
 void	init_player(t_player *player, char **map)
 {
 	player->map = map;
+	player->middle_of_screen = (G_SIZE * ROW) / 2;
 	get_x_y_position(player, map);
 	player->radius = 5;
 	player->turn_d = 1;
@@ -89,11 +94,11 @@ void	draw_player(t_cub *info, t_player *player)
 	float	x1;
 	float	y1;
 
-	x1 = player->x + (cos(info->player->rotation_angle) * 40);
-	y1 =  player->y + (sin(info->player->rotation_angle) * 40);
+	x1 = 100 + (cos(info->player->rotation_angle) * 30);
+	y1 =  100 + (sin(info->player->rotation_angle) * 30);
 	draw_circle(info, player);
-	dda(MINI_MAP_SCALE * player->x,  MINI_MAP_SCALE * player->y, \
-	MINI_MAP_SCALE * x1, MINI_MAP_SCALE * y1, info, 0x008000);
+	dda(100, 100, \
+	x1, y1, info, 0x008000);
 }
 
 void	draw_circle(t_cub *info, t_player *player)
@@ -103,8 +108,8 @@ void	draw_circle(t_cub *info, t_player *player)
 	int	n;
 
 	n = (2 * player->radius) + 1;
-	a = player->x;
-	b = player->y;
+	a = 100;
+	b = 100;
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < n; j++)
@@ -113,8 +118,8 @@ void	draw_circle(t_cub *info, t_player *player)
 			b = j - player->radius;
 			if ((a * a) + (b * b) <= player->radius * player->radius + 1)
 			{
-				my_mlx_pixel_put(info, MINI_MAP_SCALE * (a + player->x), \
-					MINI_MAP_SCALE *( b + player->y), 0xcc6600);
+				my_mlx_pixel_put(info,  (a + 100), \
+					(b + 100), 0xcc6600);
 			}
 		}
 	}

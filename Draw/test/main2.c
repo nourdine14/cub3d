@@ -6,89 +6,67 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:12:10 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/27 07:08:35 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/07/30 10:28:17 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <MLX42/MLX42.h>
+#include <mlx.h>
 
-#define WIDTH 512
-#define HEIGHT 512
-
-static mlx_image_t* image;
-
-// -----------------------------------------------------------------------------
-
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+typedef struct	s_img
 {
-    return (r << 24 | g << 16 | b << 8 | a);
-}
+	void	*img_ptr; // MLX image pointer
+	char	*addr;    // Pointer to the image data in memory
+	int		bpp;      // Number of bits per pixel (e.g., 32 bits for 24-bit color + alpha)
+	int		line_len; // Number of bytes per image row (including padding)
+	int		endian;   // Endianness of the image data
+	int		height;
+	int		width;
+}				t_img;
 
-void ft_randomize(void* param)
+void	draw_image(void *mlx_ptr, void *mlx_win, t_img *img)
 {
-	for (int32_t i = 0; i < image->width; ++i)
+	int	i;
+	int	j;
+	int	offset;
+	int	color;
+
+	i = 0;
+	j = 0;
+	while (i < img->height)
 	{
-		for (int32_t y = 0; y < image->height; ++y)
+		j = 0;
+		while (j < img->width)
 		{
-			uint32_t color = ft_pixel(
-				rand() % 0xFF, // R
-				rand() % 0xFF, // G
-				rand() % 0xFF, // B
-				rand() % 0xFF  // A
-			);
-			mlx_put_pixel(image, i, y, color);
+			offset = (i * img->line_len) + (j * (img->bpp / 8));
+			color = *(int *)(img->addr + offset);
+			mlx_pixel_put(mlx_ptr, mlx_win, j + 250, i + 250, color);
+			j++;
 		}
+		i++;
 	}
+	
+	
 }
-
-void ft_hook(void* param)
-{
-	mlx_t* mlx = param;
-
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		image->instances[0].y -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		image->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
-}
-
-// -----------------------------------------------------------------------------
 
 int32_t main(int32_t argc, const char* argv[])
 {
-	mlx_t* mlx;
+	void	*mlx_win;
+	void	*mlx_ptr;
+	t_img	img;
+	int		x;
+	int		y;
 
-	// Gotta error check this stuff
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (!(image = mlx_new_image(mlx, 128, 128)))
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	
-	mlx_loop_hook(mlx, ft_randomize, mlx);
-	mlx_loop_hook(mlx, ft_hook, mlx);
-
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	mlx_ptr = mlx_init();
+	mlx_win = mlx_new_window(mlx_ptr, 600, 600, "xpm");
+	img.img_ptr = mlx_xpm_file_to_image(mlx_ptr, "side1.xpm", &x, &y);
+	img.addr = mlx_get_data_addr(img.img_ptr, &img.bpp, &img.line_len, &img.endian);
+	img.height = y;
+	img.width = x;
+	printf("len = %d\n", img.line_len);
+	draw_image(mlx_ptr, mlx_win, &img);
+	mlx_loop(mlx_ptr);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:56:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/07/26 07:11:41 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/03 02:05:57 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	draw_rays(t_cub *info)
 	
 	init_var(&var);
 	ray_angle = info->player->rotation_angle - ((VIEW_ANGLE / 2) * DG);
-	while (var.i < NUM_OF_RAYS)
+	while (var.i <= NUM_OF_RAYS)
 	{
 		ray_angle = scale_angle(ray_angle);
 		cast_rays(info, ray_angle, var.i);

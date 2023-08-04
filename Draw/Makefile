@@ -4,7 +4,9 @@ SRC = main.c \
 	  dda.c \
 	  casting.c \
 	  rays.c \
-	  player.c
+	  player.c \
+	  check_wall.c \
+	  moves.c \
 
 OBJ = ${SRC:.c=*.o}
 
@@ -14,7 +16,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-IMLX = -lmlx -framework OpenGL -framework AppKit
+IMLX = -lmlx -framework OpenGL -framework AppKit -fsanitize=address
 
 all: $(NAME)
 
