@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:52:30 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/03 13:59:34 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/08 10:42:49 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ t_info	*init_infos(t_info **info)
 	*info = ft_calloc(1, sizeof(t_info));
 	if (*info == NULL)
 		print_errors("Error1\n");
-	(*info)->no = ft_calloc(sizeof(char *), 1);
-	(*info)->so = ft_calloc(sizeof(char *), 1);
-	(*info)->ea = ft_calloc(sizeof(char *), 1);
-	(*info)->we = ft_calloc(sizeof(char *), 1);
+	(*info)->no = NULL;
+	(*info)->so = NULL;
+	(*info)->ea = NULL;
+	(*info)->we = NULL;
 	(*info)->px = -1;
 	(*info)->py = -1;
 	return (*info);
@@ -61,37 +61,40 @@ void	read_map(char *av, t_cub **cub)
 	close(fd);
 }
 
-void	print_args(t_cub *cub)
+void	print_args(t_info *info)
 {
 	int	i;
 
 	printf("Args:\n");
 	i = 0;
-	while (cub->info->no[i])
-		printf("%s  ", cub->info->no[i++]);
+	while (info->no[i])
+		printf("%s  ", info->no[i++]);
 	printf("\n");
 	i = 0;
-	while (cub->info->so[i])
-		printf("%s  ", cub->info->so[i++]);
+	while (info->so[i])
+		printf("%s  ", info->so[i++]);
 	printf("\n");
 	i = 0;
-	while (cub->info->ea[i])
-		printf("%s  ", cub->info->ea[i++]);
+	while (info->ea[i])
+		printf("%s  ", info->ea[i++]);
 	printf("\n");
 	i = 0;
-	while (cub->info->we[i])
-		printf("%s  ", cub->info->we[i++]);
+	while (info->we[i])
+		printf("%s  ", info->we[i++]);
 	printf("\n");
 	i = 0;
 	printf("flore RGB :");
 	while (i < 3)
-		printf("%d  ", cub->info->f[i++]);
+		printf("%d  ", info->f[i++]);
 	printf("\n");
 	i = 0;
 	printf("ceiling RGB :");
 	while (i < 3)
-		printf("%d  ", cub->info->c[i++]);
+		printf("%d  ", info->c[i++]);
 	printf("\n");
+	i = 0;
+	while (info->map[i])
+		printf("%s\n", info->map[i++]);
 	exit(0);
 }
 
@@ -108,13 +111,45 @@ void	free_map(t_cub *cub)
 	}
 }
 
-void	parcing(char *av, t_cub **cub)
+t_info	*get_info_map(t_cub *cub)
 {
+	t_info	*info;
+	t_cub	*tmp;
+	int		i;
+
+	i = 0;
+	info = cub->info;
+	info->map = ft_calloc(info->height + 1, sizeof(char *));
+	while (cub && !is_map_line(cub->line))
+	{
+		free (cub->line);
+		tmp = cub;
+		cub = cub->next;
+		free(tmp);
+	}
+	while (cub)
+	{
+		info->map[i] = ft_strdup(cub->line);
+		free(cub->line);
+		i++;
+		tmp = cub;
+		cub = cub->next;
+		free(tmp);
+	}
+	info->map[i] = NULL;
+	return (info);
+}
+
+t_info	*parcing(char *av, t_cub **cub)
+{
+	t_info	*info;
+
+	info = NULL;
 	read_map(av, cub);
-	free_map(*cub);
-	return ;
-	// delte_empty_lines(cub);
-	// check_cardinal_direction(*cub);
+	delte_empty_lines(cub);
+	check_cardinal_direction(*cub);
+	info = get_info_map(*cub);
 	// print_map(*cub);
-	// print_args(*cub);
+	print_args(info);
+	return (info);
 }

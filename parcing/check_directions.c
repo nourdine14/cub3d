@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 09:47:16 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/03 13:54:16 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/08 10:15:38 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,24 @@ void	split_params_check_rep(t_cub *cub, char ***f, char ***c)
 	i = 0;
 	while (cub->line[i] && (cub->line[i] == ' ' || cub->line[i] == '\t'))
 		i++;
-	if (cub->line && cub->line[i] == 'N' && !(*cub->info->no))
+	if (cub->line && cub->line[i] == 'N' && !(cub->info->no))
 	{
-		free(*cub->info->no);
+		// free(*cub->info->no);
 		cub->info->no = ft_split(cub->line, ' ');
 	}
-	else if (cub->line && cub->line[i] == 'S' && !(*cub->info->so))
+	else if (cub->line && cub->line[i] == 'S' && !(cub->info->so))
 	{
-		free(*cub->info->so);
+		// free(*cub->info->so);
 		cub->info->so = ft_split(cub->line, ' ');
 	}
-	else if (cub->line && cub->line[i] == 'W' && !(*cub->info->we))
+	else if (cub->line && cub->line[i] == 'W' && !(cub->info->we))
 	{
-		free(*cub->info->we);
+		// free(*cub->info->we);
 		cub->info->we = ft_split(cub->line, ' ');
 	}
-	else if (cub->line && cub->line[i] == 'E' && !(*cub->info->ea))
+	else if (cub->line && cub->line[i] == 'E' && !(cub->info->ea))
 	{
-		free(*cub->info->ea);
+		// free(*cub->info->ea);
 		cub->info->ea = ft_split(cub->line, ' ');
 	}
 	else if (cub->line && cub->line[i] == 'F' && !*f)
@@ -174,7 +174,7 @@ void	check_cardinal_direction(t_cub *cub)
 {
 	char	**f;
 	char	**c;
-	// int		i;
+	int		i;
 	t_cub	*tmp;
 
 	tmp = cub;
@@ -187,18 +187,17 @@ void	check_cardinal_direction(t_cub *cub)
 	}
 	check_args_validity(cub, f, c);
 	get_color(cub, f, c);
-	// exit(0);
-	// i = 0;
-	// while (tmp != NULL)
-	// {
-	// 	i++;
-	// 	if (!is_map_line(tmp->line) || !wall_surounded(tmp, i++))
-	// 	{
-	// 		print_errors("Error : Invalid map");
-	// 	}
-	// 	tmp = tmp->next;
-	// }
-	// if (cub->info->px == -1 && cub->info->py == -1)
-	// 	print_errors("Error: no player position seted");
-	// printf("good map\n");
+	i = 0;
+	while (tmp != NULL)
+	{
+		i++;
+		if (!is_map_line(tmp->line) || !wall_surounded(tmp, i++))
+		{
+			print_errors("Error : Invalid map");
+		}
+		tmp = tmp->next;
+	}
+	if (cub->info->px == -1 && cub->info->py == -1)
+		print_errors("Error: no player position seted");
+	printf("good map\n");
 }

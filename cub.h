@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:08:55 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/31 04:51:15 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/08 10:26:07 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ typedef struct s_info
 	char	**we;
 	int		f[3];
 	int		c[3];
+	char	**map;
 	int		px;
 	int		py;
 	int		height;
 }	t_info;
 
-void	parcing(char *av, t_cub **cub);
+t_info	*parcing(char *av, t_cub **cub);
 char	*get_next_line(int fd);
 void	print_map(t_cub *cub);
 
