@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:34 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/02 04:49:31 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/06 10:29:24 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void dda(int X0, int Y0, int X1, int Y1, t_cub *info, int color)
 	float X = X0;
 	float Y = Y0;
 	for (int i = 0; i <= steps; i++) {
-		// if (X < 0 || X >= G_SIZE * COL || Y < 0 || Y >= G_SIZE * ROW)
-		// 	return ;
-		my_mlx_pixel_put(info, X, Y, color); // put pixel at (X,Y)
+		if (X < 0 || X >= G_SIZE * COL || Y < 0 || Y >= G_SIZE * ROW)
+			return ;
+		my_mlx_pixel_put(&info->img, X, Y, color); // put pixel at (X,Y)
 		X += Xinc; // increment in x at each step
 		Y += Yinc; // increment in y at each step
 	}

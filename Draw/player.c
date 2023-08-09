@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/04 07:37:43 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/09 17:56:11 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,17 @@ void	init_player(t_player *player, char **map)
 	player->rotate_right = 0;
 	player->move_forward = 0;
 	player->move_backward = 0;
+	player->move_forward_l = 0;
+	player->move_forward_r = 0;
 	player->move_speed = 1;
 	player->rotation_speed = 2 * (M_PI / 180);
+	player->shot = 0;
+	player->stop = 0;
+	player->hp = 150;
 }
 
 void	draw_player(t_cub *info, t_player *player)
 {
-	// int		a;
 	float	x1;
 	float	y1;
 
@@ -118,7 +122,9 @@ void	draw_circle(t_cub *info, t_player *player)
 			b = j - player->radius;
 			if ((a * a) + (b * b) <= player->radius * player->radius + 1)
 			{
-				my_mlx_pixel_put(info,  (a + 100), \
+				if ((a + 100) >= 0 && (b + 100) >= 0 && (b + 100) <= ROW * G_SIZE \
+					&& (a + 100) <= COL * G_SIZE)
+				my_mlx_pixel_put(&info->img,  (a + 100), \
 					(b + 100), 0xcc6600);
 			}
 		}

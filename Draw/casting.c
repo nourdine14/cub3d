@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 04:52:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/04 07:34:56 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/09 22:02:35 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	draw_line_of_texture(int x, int y, int	width, int height,
 		{
 			offset = ((int)ycount * img->line_len) + (offsetx * (img->bpp / 2));
 			color = *(int *)(img->addr + offset);
-			if (x >= 0 && y >= 0 && x <= G_SIZE * COL && y <= G_SIZE * ROW)
-				my_mlx_pixel_put(info, x, y, color);
+			if (x >= 0 && y >= 0 && x < G_SIZE * COL && y < G_SIZE * ROW)
+				my_mlx_pixel_put(&info->img, x, y, color);
 			j++;
 			y++;
 			ycount += step;
@@ -67,7 +67,7 @@ void	draw_line_of_texture(int x, int y, int	width, int height,
 
 float	diff_of_two_points(float x, float y, float x1, float y1)
 {
-	return (fabs(sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y))));
+	return (sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y)));
 }
 
 void	horizontale(t_cub *info, t_ray *ray, float ray_angle)
@@ -76,8 +76,7 @@ void	horizontale(t_cub *info, t_ray *ray, float ray_angle)
 	ray->yinter = (ceil(info->player->y / G_SIZE) * G_SIZE);
 	if (ray_lookig_up(ray_angle))
 		ray->yinter -= G_SIZE;
-	
-	ray->xinter = info->player->x + (ray->yinter - info->player->y) /  tan(ray_angle);
+	ray->xinter = info->player->x + (ray->yinter - info->player->y) / tan(ray_angle);
 	
 	
 	ray->ystep = G_SIZE;
@@ -94,7 +93,7 @@ void	horizontale(t_cub *info, t_ray *ray, float ray_angle)
 		IY--;
 	while (IX >= 0 && IX < long_line(info->player->map) * G_SIZE && IY >= 0 && IY < height_of_map(info->player->map) * G_SIZE)
 	{
-		if (has_wall(IX , IY, info))
+		if (has_wall(IX, IY, info))
 		{
 			if (ray_lookig_up(ray_angle))
 				IY++;
@@ -131,12 +130,14 @@ void	verticale(t_cub *info, t_ray *ray, float ray_angle)
 	ray->a = false;
 	if (ray_lookig_left(ray_angle))
 		ray->ix--;
-	while (ray->ix >= 0 && ray->ix < long_line(info->player->map) * G_SIZE && ray->iy >= 0 && ray->iy < height_of_map(info->player->map) * G_SIZE)
+	int k = long_line(info->player->map);
+	int c = height_of_map(info->player->map);
+	while (ray->ix >= 0 && ray->ix < k * G_SIZE && ray->iy >= 0 && ray->iy < c * G_SIZE)
 	{
 		if (has_wall(ray->ix, ray->iy, info))
 		{
-		if (ray_lookig_left(ray_angle))
-			ray->ix++;
+			if (ray_lookig_left(ray_angle))
+				ray->ix++;
 			ray->a = true;
 			ray->xvertical_hit_wall = ray->ix;
 			ray->yvertical_hit_wall = ray->iy;
@@ -171,21 +172,14 @@ void	draw_wall(t_cub *info, t_ray *ray, float ray_angle, int i)
 	}
 	else
 	{
-		// if (ray_lookig_left(ray_angle))
 		ray->ix = ray->xvertical_hit_wall;
 		ray->iy = ray->yvertical_hit_wall;
 		ray->ray_dist = ray->yhit;
 	}
 	ray->ray_dist = cos(ray_angle - info->player->rotation_angle) * ray->ray_dist;
-	
-	// printf("ray dis = %f\n", ray->ray_dist);
+
 	float	wall_projected = (25000 / ray->ray_dist);
-	// printf("wall projection %f\n", wall_projected);
-	// if (wall_projected > info->player->middle_of_screen)
-	// 	wall_projected = info->player->middle_of_screen;
-	// int	color;
-	
-	// int x = wall_projected / info->side1.height;
+
 	t_img img;
 
 	if (ray->xhit < ray->yhit)
@@ -201,6 +195,18 @@ void	draw_wall(t_cub *info, t_ray *ray, float ray_angle, int i)
 			img = info->side3;
 		else
 			img = info->side4;
+	}
+	if ((is_door(ray->ix, ray->iy, info) || is_door(ray->ix - 1, ray->iy - 1, info) \
+		|| is_door(ray->ix + 1, ray->iy + 1, info)))
+	{
+		if (diff_of_two_points(ray->ix, ray->iy, info->player->x, info->player->y) > 100)
+			img = info->door;
+		if (ray->yhit < ray->xhit && (has_wall(ray->ix - 1, ray->iy, info) || \
+			has_wall(ray->ix + 1, ray->iy, info)))
+			img = info->door;
+		if (ray->yhit > ray->xhit && (has_wall(ray->ix, ray->iy - 1, info) || \
+			has_wall(ray->ix, ray->iy + 1, info)))
+			img = info->door;
 	}
 	draw_line_of_texture(i, (info->player->middle_of_screen) - (wall_projected), \
 	WALL_WIDTH, 2 * wall_projected, info, &img, *ray);

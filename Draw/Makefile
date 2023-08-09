@@ -1,37 +1,52 @@
 NAME = cub3d
 
-SRC = main.c \
-	  dda.c \
-	  casting.c \
-	  rays.c \
-	  player.c \
-	  check_wall.c \
-	  moves.c \
+SRCS =	main.c \
+		dda.c \
+		casting.c \
+		rays.c \
+		player.c \
+		check_wall.c \
+		moves.c \
+		parcing/parcing.c \
+		parcing/delete_empty_lines.c \
+		parcing/ft_atoi.c \
+		parcing/ft_split.c \
+		parcing/free.c \
+		parcing/parcing_utils.c \
+		parcing/check_directions.c \
+		parcing/linked_lists_tools.c \
+		get_next_line/get_next_line.c \
+		get_next_line/get_next_line_utils.c \
 
-OBJ = ${SRC:.c=*.o}
+OBJS = $(SRCS:.c=.o)
 
-INCS = cub3d.h
+CFLAGS = -Wall -Werror -Wextra -g
 
-CC = gcc
+MLXFLAGS = -lmlx -framework OpenGL -framework AppKit -fsanitize=address
 
-CFLAGS = -Wall -Wextra -Werror
+HEADER = cub3d.h
 
-IMLX = -lmlx -framework OpenGL -framework AppKit -fsanitize=address
+RM = rm -rf
 
-all: $(NAME)
+all: $(NAME) $(OBJS) $(HEADER)
+	@printf "\033[0;32mDONE ✅"
 
-$(NAME): $(OBJ)
-		$(CC) -o $(NAME) ${CFLAGS} $(OBJ) $(IMLX)
+%.o: %.c $(HEADER)
+	@cc -c $(CFLAGS) $<  -o $@
+	@printf "\033[0;32m{compiling : %-30s .....} \r" ${notdir $@} 
 
-%.o: %.c $(INCS)
-	$(CC) -c $(CFLAGS) $<
+$(NAME): $(OBJS) $(HEADER)
+	cc $(MLXFLAGS) -o $(NAME) $(OBJS)
 
 clean:
-	rm -rf $(OBJ)
+	$(RM) $(OBJS)
+	@printf "\033[0;32mDONE ✅"
 
-fclean: clean
-	rm -rf $(NAME)
+fclean:clean
+	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.SILENT : $(NAME) clean fclean re
+
+.PHONY : all clean fclean re

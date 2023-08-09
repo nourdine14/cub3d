@@ -10,6 +10,7 @@
 		"algorithm": "c",
 		"chrono": "c",
 		"limits": "c",
-		"ratio": "c"
+		"ratio": "c",
+		"cub3d.h": "c"
 	}
 }
