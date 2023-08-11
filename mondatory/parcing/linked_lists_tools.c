@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   linked_lists_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:32:28 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/22 04:56:00 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/08 19:09:59 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parcing.h"
 
-// void	ft_lstdelone(t_cub *lst, void (*del)(void*))
+// void	ft_lstdelone(t_cubt *lst, void (*del)(void*))
 // {
 // 	if (!lst || !del)
 // 		return ;
@@ -20,7 +20,7 @@
 // 	free(lst);
 // }
 
-t_cub	*ft_lstlast(t_cub *cub)
+t_cubt	*ft_lstlast(t_cubt *cub)
 {
 	if (!cub)
 		return (NULL);
@@ -35,9 +35,9 @@ t_cub	*ft_lstlast(t_cub *cub)
 	return (cub);
 }
 
-void	ft_lstadd_back(t_cub **cub, t_cub *new)
+void	ft_lstadd_back(t_cubt **cub, t_cubt *new)
 {
-	t_cub	*temp;
+	t_cubt	*temp;
 
 	if (cub)
 	{
@@ -51,11 +51,11 @@ void	ft_lstadd_back(t_cub **cub, t_cub *new)
 	}
 }
 
-t_cub	*ft_lstnew(char *line, t_info *info, t_cub *prev)
+t_cubt	*ft_lstnew(char *line, t_info *info, t_cubt *prev)
 {
-	t_cub	*new;
+	t_cubt	*new;
 
-	new = (t_cub *)malloc(sizeof(t_cub));
+	new = (t_cubt *)malloc(sizeof(t_cubt));
 	if (!new)
 		return (NULL);
 	(new)->line = line;

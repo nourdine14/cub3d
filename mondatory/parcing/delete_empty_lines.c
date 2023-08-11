@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 05:08:08 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/31 05:23:51 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/09 23:19:01 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ static int	is_empty_line(char *s)
 	return (1);
 }
 
-void	delete_prefixes_empty_lines(t_cub **cub, t_cub *tmp)
+void	delete_prefixes_empty_lines(t_cubt **cub, t_cubt *tmp)
 {
-	t_cub	*to_delete;
-	t_cub	*prev;
+	t_cubt	*to_delete;
+	t_cubt	*prev;
 
 	prev = NULL;
 	while (tmp != NULL && !is_map_line(tmp->line))
@@ -74,10 +74,10 @@ void	delete_prefixes_empty_lines(t_cub **cub, t_cub *tmp)
 		print_errors("Error : No map");
 }
 
-void	delte_empty_lines(t_cub **cub)
+void	delte_empty_lines(t_cubt **cub)
 {
-	t_cub	*to_delete;
-	t_cub	*tmp;
+	t_cubt	*to_delete;
+	t_cubt	*tmp;
 
 	tmp = *cub;
 	delete_prefixes_empty_lines(cub, tmp);
@@ -90,4 +90,11 @@ void	delte_empty_lines(t_cub **cub)
 		free(to_delete->line);
 		free(to_delete);
 	}
+}
+
+int	is_player(char c)
+{
+	if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
+		return (1);
+	return (0);
 }

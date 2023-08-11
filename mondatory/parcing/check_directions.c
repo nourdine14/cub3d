@@ -6,13 +6,13 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 09:47:16 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/08 10:15:38 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/09 23:16:33 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parcing.h"
 
-void	split_params_check_rep(t_cub *cub, char ***f, char ***c)
+void	split_params_check_rep(t_cubt *cub, char ***f, char ***c)
 {
 	int	i;
 
@@ -20,25 +20,13 @@ void	split_params_check_rep(t_cub *cub, char ***f, char ***c)
 	while (cub->line[i] && (cub->line[i] == ' ' || cub->line[i] == '\t'))
 		i++;
 	if (cub->line && cub->line[i] == 'N' && !(cub->info->no))
-	{
-		// free(*cub->info->no);
 		cub->info->no = ft_split(cub->line, ' ');
-	}
 	else if (cub->line && cub->line[i] == 'S' && !(cub->info->so))
-	{
-		// free(*cub->info->so);
 		cub->info->so = ft_split(cub->line, ' ');
-	}
 	else if (cub->line && cub->line[i] == 'W' && !(cub->info->we))
-	{
-		// free(*cub->info->we);
 		cub->info->we = ft_split(cub->line, ' ');
-	}
 	else if (cub->line && cub->line[i] == 'E' && !(cub->info->ea))
-	{
-		// free(*cub->info->ea);
 		cub->info->ea = ft_split(cub->line, ' ');
-	}
 	else if (cub->line && cub->line[i] == 'F' && !*f)
 		*f = ft_split(cub->line, ' ');
 	else if (cub->line && cub->line[i] == 'C' && !*c)
@@ -68,7 +56,7 @@ int	check_validity(char *str)
 	return (1);
 }
 
-void	check_args_validity(t_cub *cub, char **f, char **c)
+void	check_args_validity(t_cubt *cub, char **f, char **c)
 {
 	if (towd_arr_size(cub->info->no) != 2 || \
 		towd_arr_size(cub->info->so) != 2 || \
@@ -88,14 +76,7 @@ void	check_args_validity(t_cub *cub, char **f, char **c)
 		print_errors("Error : Invalid RGB value");
 }
 
-int	is_player(char c)
-{
-	if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
-		return (1);
-	return (0);
-}
-
-int	wall_surounded(t_cub *cub, int j)
+int	wall_surounded(t_cubt *cub, int j)
 {
 	int	i;
 
@@ -124,58 +105,11 @@ int	wall_surounded(t_cub *cub, int j)
 	return (1);
 }
 
-void	free_2d_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-}
-
-void	get_color(t_cub *cub, char **f, char **c)
-{
-	int		i;
-	char	**floor;
-	char	**ceiling;
-
-	floor = NULL;
-	ceiling = NULL;
-	floor = ft_split(f[1], ',');
-	free_2d_arr(f);
-	if (!floor)
-		print_errors("Error : Invalid flor color");
-	ceiling = ft_split(c[1], ',');
-	free_2d_arr(c);
-	if (!ceiling)
-		print_errors("Error : Invalid ceiling color");
-	i = 0;
-	while (floor[i])
-	{
-		cub->info->f[i] = ft_atoi(floor[i]);
-		if (cub->info->f[i] < 0 || cub->info->f[i] > 255)
-			print_errors("Error : Invalid flor color");
-		i++;
-	}
-	free_2d_arr(floor);
-	i = 0;
-	while (ceiling[i])
-	{
-		cub->info->c[i] = ft_atoi(ceiling[i]);
-		if (cub->info->c[i] < 0 || cub->info->c[i] > 255)
-			print_errors("Error : Invalid ceiling color");
-		i++;
-	}
-	free_2d_arr(ceiling);
-}
-
-void	check_cardinal_direction(t_cub *cub)
+void	check_cardinal_direction(t_cubt *cub)
 {
 	char	**f;
 	char	**c;
-	int		i;
-	t_cub	*tmp;
+	t_cubt	*tmp;
 
 	tmp = cub;
 	f = NULL;
@@ -187,17 +121,5 @@ void	check_cardinal_direction(t_cub *cub)
 	}
 	check_args_validity(cub, f, c);
 	get_color(cub, f, c);
-	i = 0;
-	while (tmp != NULL)
-	{
-		i++;
-		if (!is_map_line(tmp->line) || !wall_surounded(tmp, i++))
-		{
-			print_errors("Error : Invalid map");
-		}
-		tmp = tmp->next;
-	}
-	if (cub->info->px == -1 && cub->info->py == -1)
-		print_errors("Error: no player position seted");
-	printf("good map\n");
+	check_map(tmp, cub);
 }
