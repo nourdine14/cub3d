@@ -6,11 +6,11 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/11 20:20:43 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/13 18:30:55 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	update_angle(t_player *player, char flag)
 {
@@ -96,6 +96,6 @@ void	draw_player(t_cub *info, t_player *player)
 
 	x1 = 100 + (cos(info->player->rotation_angle) * 30);
 	y1 = 100 + (sin(info->player->rotation_angle) * 30);
-	dda(100, 100, x1, y1, info, 0x008000);
+	dda(x1, y1, info, 0x008000);
 	draw_circle(info, player);
 }

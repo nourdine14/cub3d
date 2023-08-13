@@ -6,11 +6,11 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:56:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/11 20:31:10 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/12 18:12:31 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	init_var(t_var *var)
 {

@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/11 19:47:04 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/13 19:11:26 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@
 // # define HEIGHT COL * G_SIZE
 // # define WIDTH
 
-typedef struct	s_sprite
+typedef struct s_sprite
 {
-    int type;	// key , enemy
-	int	state; // on off
-	int	map; // which texture
-	// position
+	int	type;
+	int	state;
+	int	map;
 	int	x;
 	int	y;
 	int	z;
@@ -66,13 +65,13 @@ typedef struct s_var
 	int		j;
 }	t_var;
 
-typedef struct	s_img
+typedef struct s_img
 {
-	void	*img_ptr; // MLX image pointer
-	char	*addr;    // Pointer to the image data in memory
-	int		bpp;      // Number of bits per pixel (e.g., 32 bits for 24-bit color + alpha)
-	int		line_len; // Number of bytes per image row (including padding)
-	int		endian;   // Endianness of the image data
+	void	*img_ptr;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
 	int		height;
 	int		width;
 }				t_img;
@@ -106,8 +105,8 @@ typedef struct s_player
 	char	**map;
 	float	x;
 	float	y;
-	float	x1;
-	float	y1;
+	int		*x1;
+	int		*y1;
 	float	mouse_x;
 	float	mouse_y;
 	float	middle_of_screen;
@@ -175,7 +174,7 @@ t_info	*parcing(char *av, t_cubt **cub);
 char	*get_next_line(int fd);
 void	print_map(t_cubt *cub);
 
-void	dda(int X0, int Y0, int X1, int Y1, t_cub *info, int color);
+void	dda(int X1, int Y1, t_cub *info, int color);
 float	diff_of_two_points(float x, float y, float x1, float y1);
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 void	cast_rays(t_cub *info, float ray_angle, int i);
@@ -190,6 +189,7 @@ void	draw_rays(t_cub *info);
 void	horizontale(t_cub *info, t_ray *ray, float ray_angle);
 void	draw_wall(t_cub *info, t_ray *ray, float ray_angle, int i);
 void	verticale(t_cub *info, t_ray *ray, float ray_angle);
+void	print_errors(char *str);
 
 int		long_line(char **map);
 int		height_of_map(char **map);
@@ -209,5 +209,7 @@ void	draw_sprite(t_cub *info);
 int		is_door(float x, float y, t_cub *info);
 int		is_valid(float x, float y, t_cub *info);
 void	draw_line_of_texture(t_cub info, t_img *img, t_ray ray);
+int		handle_keypress(int keycode, void *param);
+int		handle_keyrelease(int keycode, void *param);
 
 #endif

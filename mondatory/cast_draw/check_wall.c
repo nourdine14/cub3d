@@ -6,11 +6,16 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 05:09:32 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/11 13:06:48 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/12 16:14:27 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+float	diff_of_two_points(float x, float y, float x1, float y1)
+{
+	return (sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y)));
+}
 
 int	has_wall(float x, float y, t_cub *info)
 {
