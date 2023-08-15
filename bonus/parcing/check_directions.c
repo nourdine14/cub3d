@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 09:47:16 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/09 23:16:33 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/15 20:12:24 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ int	wall_surounded(t_cubt *cub, int j)
 {
 	int	i;
 
-	i = 0;
-	while (cub->line[i])
+	i = -1;
+	while (cub->line[++i])
 	{
-		if ((cub->line[i] == '0' || is_player(cub->line[i])) && \
-			(cub->line[i + 1] == ' ' || cub->line[i + 1] == '\0' \
+		if ((cub->line[i] == '0' || is_player(cub->line[i])) \
+			&& (cub->line[i + 1] == ' ' || cub->line[i + 1] == '\0' \
 			|| i == 0 || cub->line[i - 1] == ' ' ||!cub->prev->line || \
 			((int)ft_strlen(cub->prev->line) - 1) < i || !cub->next || \
 			cub->prev->line[i] == ' ' || !cub->prev->line[i] || \
@@ -100,7 +100,7 @@ int	wall_surounded(t_cubt *cub, int j)
 			else
 				print_errors("Error: double player position");
 		}
-		i++;
+		check_doors(cub, i, j);
 	}
 	return (1);
 }
