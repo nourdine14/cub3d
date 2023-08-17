@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 19:09:59 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/13 19:19:21 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:36:53 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,19 @@ int	handle_keypress(int keycode, void *param)
 		mlx_destroy_window(info->mlx, info->mlx_win);
 		exit (0);
 	}
-	if (keycode == 12)
+	if (keycode == 36)
+		info->player->open = 1;
+	if (keycode == 51)
+		info->player->open = 0;
+	if (keycode == 0)
 		info->player->move_forward_l = 1;
-	if (keycode == 14)
+	if (keycode == 2)
 		info->player->move_forward_r = 1;
 	if (keycode == 49 && !info->player->stop)
 		info->player->shot = 1;
-	if (keycode == 126)
+	if (keycode == 13)
 		info->player->move_forward = 1;
-	else if (keycode == 125)
+	else if (keycode == 1)
 		info->player->move_backward = 1;
 	else if (keycode == 123)
 		info->player->rotate_left = 1;
@@ -44,18 +48,18 @@ int	handle_keyrelease(int keycode, void *param)
 	t_cub	*info;
 
 	info = (t_cub *)param;
-	if (keycode == 12)
+	if (keycode == 0)
 		info->player->move_forward_l = 0;
-	if (keycode == 14)
+	if (keycode == 2)
 		info->player->move_forward_r = 0;
 	if (keycode == 49)
 	{
 		info->player->shot = 0;
 		info->player->stop = 0;
 	}
-	if (keycode == 126)
+	if (keycode == 13)
 		info->player->move_forward = 0;
-	else if (keycode == 125)
+	else if (keycode == 1)
 		info->player->move_backward = 0;
 	else if (keycode == 123)
 		info->player->rotate_left = 0;

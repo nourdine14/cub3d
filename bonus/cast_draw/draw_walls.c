@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_walls.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:07:23 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/12 16:25:04 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:20:23 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,21 @@ void	draw_wall(t_cub *info, t_ray *ray, float ray_angle, int i)
 	get_distance(ray, info, ray_angle);
 	wall_projected = (25000 / ray->ray_dist);
 	img = get_img_side(ray, info, ray_angle);
-	if ((is_door(ray->ix, ray->iy, info) \
-		|| is_door(ray->ix - 1, ray->iy - 1, info) \
-		|| is_door(ray->ix + 1, ray->iy + 1, info)))
+	if ((is_door(ray->ix, ray->iy, info)))
 	{
-		if (diff_of_two_points(ray->ix, ray->iy, \
-			info->player->x, info->player->y) > 100)
+		if ((ray->xhit < ray->yhit && \
+			((has_wall((floor(ray->ix / G_SIZE) * G_SIZE) - 1, ray->iy - 1 , info) && \
+		 	has_wall((ceil(ray->ix / G_SIZE) * G_SIZE) + 1, ray->iy - 1 , info)) || \
+			(has_wall((floor(ray->ix / G_SIZE) * G_SIZE) - 1, ray->iy + 1 , info) && \
+		 	has_wall((ceil(ray->ix / G_SIZE) * G_SIZE) + 1, ray->iy + 1 , info))) ) || \
+			(ray->yhit < ray->xhit && \
+			((has_wall(ray->ix - 1, (floor(ray->iy / G_SIZE) * G_SIZE) - 1, info) && \
+			has_wall(ray->ix - 1, (ceil(ray->iy / G_SIZE) * G_SIZE) + 1, info)) || \
+			(has_wall(ray->ix + 1, (floor(ray->iy / G_SIZE) * G_SIZE) - 1, info) && \
+			has_wall(ray->ix + 1, (ceil(ray->iy / G_SIZE) * G_SIZE) + 1, info)))))
 			img = info->door;
-		if (ray->yhit < ray->xhit && (has_wall(ray->ix - 1, ray->iy, info) || \
-			has_wall(ray->ix + 1, ray->iy, info)))
-			img = info->door;
-		if (ray->yhit > ray->xhit && (has_wall(ray->ix, ray->iy - 1, info) || \
-			has_wall(ray->ix, ray->iy + 1, info)))
-			img = info->door;
+		else
+			img = info->doorside;
 	}
 	info->x = i;
 	info->y = (info->player->middle_of_screen) - (wall_projected);

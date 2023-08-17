@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moves.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 05:14:00 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/13 19:01:13 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:29:00 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	draw_hp_len(t_cub *info, int hp)
 void	full_images3(t_cub *info, int x, int y)
 {
 	info->side4.img_ptr = mlx_xpm_file_to_image(info->mlx, \
-	"textures/side4.xpm", &x, &y);
+	info->info->ea[1], &x, &y);
 	if (!info->side4.img_ptr)
 		print_errors("Error image couldn't load");
 	info->side4.addr = mlx_get_data_addr(info->side4.img_ptr, \
@@ -49,13 +49,24 @@ void	full_images3(t_cub *info, int x, int y)
 	info->side4.height = y;
 	info->side4.width = x;
 	info->door.img_ptr = mlx_xpm_file_to_image(info->mlx, \
-	"textures/door.xpm", &x, &y);
+	"textures/door_elon.xpm", &x, &y);
 	if (!info->door.img_ptr)
 		print_errors("Error image couldn't load");
 	info->door.addr = mlx_get_data_addr(info->door.img_ptr, \
 	&info->door.bpp, &info->door.line_len, &info->door.endian);
 	info->door.height = y;
 	info->door.width = x;
+	info->doorside.img_ptr = mlx_xpm_file_to_image(info->mlx, \
+		"textures/door_elon_side.xpm", &x, &y);
+	if (!info->doorside.img_ptr)
+	{
+		printf("Error image couldn't load\n");
+		exit (1);
+	}
+	info->doorside.addr = mlx_get_data_addr(info->doorside.img_ptr, \
+	&info->doorside.bpp, &info->doorside.line_len, &info->doorside.endian);
+	info->doorside.height = y;
+	info->doorside.width = x;
 }
 
 void	full_images2(t_cub *info, int x, int y)
@@ -65,7 +76,7 @@ void	full_images2(t_cub *info, int x, int y)
 	info->side1.height = y;
 	info->side1.width = x;
 	info->side2.img_ptr = mlx_xpm_file_to_image(info->mlx, \
-	"textures/sd1.xpm", &x, &y);
+	info->info->so[1], &x, &y);
 	if (!info->side2.img_ptr)
 		print_errors("Error image couldn't load");
 	info->side2.addr = mlx_get_data_addr(info->side2.img_ptr, \
@@ -73,7 +84,7 @@ void	full_images2(t_cub *info, int x, int y)
 	info->side2.height = y;
 	info->side2.width = x;
 	info->side3.img_ptr = mlx_xpm_file_to_image(info->mlx, \
-	"textures/side3.xpm", &x, &y);
+	info->info->we[1], &x, &y);
 	if (!info->side3.img_ptr)
 		print_errors("Error image couldn't load");
 	info->side3.addr = mlx_get_data_addr(info->side3.img_ptr, \
@@ -98,7 +109,7 @@ void	full_images(t_cub *info)
 	info->img.addr = mlx_get_data_addr(info->img.img_ptr, &info->img.bpp, \
 		&info->img.line_len, &info->img.endian);
 	info->side1.img_ptr = mlx_xpm_file_to_image(info->mlx, \
-	"textures/side1.xpm", &x, &y);
+	info->info->no[1], &x, &y);
 	if (!info->side1.img_ptr)
 		print_errors("Error image couldn't load");
 	full_images2(info, x, y);
@@ -110,6 +121,7 @@ int	move_and_draw(void *param)
 
 	info = (t_cub *)param;
 	full_images(info);
+	check_doors_distance_from_player(info);
 	color_background(info);
 	draw_rays(info);
 	draw_map(info, info->player->map);
@@ -119,7 +131,7 @@ int	move_and_draw(void *param)
 	mlx_clear_window(info->mlx, info->mlx_win);
 	mlx_put_image_to_window(info->mlx, info->mlx_win, info->img.img_ptr, 0, 0);
 	mlx_put_image_to_window(info->mlx, info->mlx_win, \
-	info->gun1.img_ptr, 450, 185);
+		info->gun1.img_ptr, 450, 185);
 	mlx_string_put(info->mlx, info->mlx_win, 750, 10, 0x000000, "Bullet : +99");
 	mlx_destroy_image(info->mlx, info->img.img_ptr);
 	return (0);

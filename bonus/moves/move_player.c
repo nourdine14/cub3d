@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 18:06:23 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/13 19:06:08 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/15 15:40:18 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ void	move_player2(t_cub *info, float dx, float dy)
 		info->player->y -= dy;
 }
 
-void	redraw_in_move(t_cub *info, t_player *player, int counter)
+void	redraw_in_move(t_cub *info, t_player *player, int *counter)
 {
 	info->gun1.img_ptr = mlx_xpm_file_to_image(info->mlx, "textures/gun2.xpm", \
-	player->x1, player->y1);
+	&player->x1, &player->y1);
 	free(info->gun1.addr);
 	info->gun1.addr = mlx_get_data_addr(info->gun1.img_ptr, &info->gun1.bpp, \
 		&info->gun1.line_len, &info->gun1.endian);
-	if (counter > 10)
+	if (*counter > 10)
 	{
 		player->shot = 0;
 		player->stop = 1;
-		counter = 0;
+		*counter = 0;
 	}
 }
 
@@ -74,9 +74,7 @@ void	move_player(t_player *player, t_cub *info)
 	if (player->rotate_right)
 		player->rotation_angle += ROTATION_SPEED;
 	if (player->shot)
-	{
-		redraw_in_move(info, player, counter);
-	}
+		redraw_in_move(info, player, &counter);
 	counter++;
 }
 
@@ -89,13 +87,13 @@ int	handle_mouse_move(int x, int y, t_cub *info)
 	dy = y - info->player->mouse_y;
 	info->player->mouse_x = x;
 	info->player->mouse_y = y;
-	if (x < G_SIZE * COL && y < G_SIZE * ROW && x > 0 && y > 0)
+	if (x < 1500 && y < 1500 && x > 0 && y > 0)
 		info->player->rotation_angle += 0.005 * dx;
-	if (x < G_SIZE * COL && y < G_SIZE * ROW && x > 0 && y > 0 && \
+	if (x < 1500 && y < 1500 && x > 0 && y > 0 && \
 		dy > 0 && info->player->middle_of_screen > 100)
-		info->player->middle_of_screen -= 3;
-	if (x < G_SIZE * COL && y < G_SIZE * ROW && x > 0 && y > 0 && \
-		dy < 0 && info->player->middle_of_screen < (G_SIZE * ROW - 100))
-		info->player->middle_of_screen += 3;
+		info->player->middle_of_screen -= 2;
+	if (x < 1500 && y < 1500 && x > 0 && y > 0 && \
+		dy < 0 && info->player->middle_of_screen < (1500 - 100))
+		info->player->middle_of_screen += 2;
 	return (0);
 }

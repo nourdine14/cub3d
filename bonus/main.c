@@ -6,7 +6,7 @@
 /*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:39:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/13 21:19:09 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/17 23:44:43 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,12 @@ int	main(int ac, char **av)
 	t_info		*info2;
 	t_cubt		*cub;
 
-	(void)ac;
-	(void)av;
 	if (ac != 2)
 		print_errors("Error !");
 	info2 = parcing(av[1], &cub);
-	(void)av;
-	(void)ac;
 	info.player = &player;
+	info.info = info2;
+	init_doors_pos(&info, info2->map);
 	init_player(&player, info2->map);
 	info.mlx = mlx_init();
 	if (info.mlx == NULL)

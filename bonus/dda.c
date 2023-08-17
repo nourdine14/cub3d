@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:34 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/13 21:19:18 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:26:04 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,14 @@ static void	color_half(t_cub *info, int j, int color)
 
 void	color_background(t_cub *info)
 {
-	color_half(info, 0, 0x99d6ff);
-	color_half(info, info->player->middle_of_screen, 0x737373);
+	color_half(info, 0, combine_rgb_colors(info->info->f[0], \
+		info->info->f[1], info->info->f[2]));
+	// printf("floor %d %d %d\n", info->info->f[0], info->info->f[1], info->info->f[2]);
+	// printf("ceil %d %d %d\n", info->info->c[0], info->info->c[1], info->info->c[2]);
+	// exit (0);
+	color_half(info, info->player->middle_of_screen, \
+		combine_rgb_colors(info->info->c[0], \
+		info->info->c[1], info->info->c[2]));
 }
 
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
@@ -68,4 +74,9 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->line_len + x * (data->bpp / 8));
 	*(unsigned int *)dst = color;
+}
+
+int	combine_rgb_colors(int red, int green, int blue)
+{
+	return ((red << 16) | (green << 8) | blue);
 }
