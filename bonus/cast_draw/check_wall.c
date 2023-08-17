@@ -6,11 +6,16 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 05:09:32 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/12 17:53:18 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:35:48 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
+
+float	diff_of_two_points(float x, float y, float x1, float y1)
+{
+	return (sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y)));
+}
 
 int	has_wall(float x, float y, t_cub *info)
 {
@@ -33,9 +38,7 @@ int	has_wall(float x, float y, t_cub *info)
 	if (info->player->map[i][j] == '1')
 		return (1);
 	if (info->player->map[i][j] == 'D')
-	{
 		return (1);
-	}
 	return (0);
 }
 
@@ -48,11 +51,15 @@ int	has_wall2(float x, float y, t_cub *info)
 	int px2 = (int)((x - SPACE_FROM_WALL) / G_SIZE);
 	int py2 = (int)((y - SPACE_FROM_WALL) / G_SIZE);
 
-	// Check if the player's corners are inside a wall
 	if (info->player->map[py][px1] == '1' || info->player->map[py1][px] == '1' ||
 		info->player->map[py1][px1] == '1' || info->player->map[py2][px] == '1' || 
 		info->player->map[py2][px2] == '1' || info->player->map[py1][px2] == '1' ||
 		info->player->map[py][px2] == '1' || info->player->map[py2][px1] == '1')
+		return (1);
+	if (info->player->map[py][px1] == 'D' || info->player->map[py1][px] == 'D' ||
+		info->player->map[py1][px1] == 'D' || info->player->map[py2][px] == 'D' || 
+		info->player->map[py2][px2] == 'D' || info->player->map[py1][px2] == 'D' ||
+		info->player->map[py][px2] == 'D' || info->player->map[py2][px1] == 'D')
 		return (1);
 	return (0);
 
@@ -62,7 +69,7 @@ int	is_door(float x, float y, t_cub *info)
 {
 	int	i;
 	int	j;
-	
+
 	j = x / G_SIZE;
 	i = y / G_SIZE;
 	if (info->player->map[i][j] == 'D' || info->player->map[i][j] == 'C')

@@ -6,11 +6,11 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:56:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/10 12:45:19 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:32:36 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	init_var(t_var *var)
 {
@@ -25,8 +25,6 @@ void	init_var(t_var *var)
 void	until_find_wall(t_cub *info, t_var *var, float ray_angle)
 {
 	float	point;
-	// float	x;
-	// float	y;
 
 	point = 0;
 	var->x = info->player->x - (cos(ray_angle) * point);
@@ -42,7 +40,7 @@ void	until_find_wall(t_cub *info, t_var *var, float ray_angle)
 float	scale_angle(float angle)
 {
 	float	normalized;
-	
+
 	normalized = fmod(angle, 2 * M_PI);
 	if (normalized < 0)
 		normalized += 2 * M_PI;
@@ -53,7 +51,7 @@ void	draw_rays(t_cub *info)
 {
 	t_var	var;
 	float	ray_angle;
-	
+
 	init_var(&var);
 	ray_angle = info->player->rotation_angle - ((VIEW_ANGLE / 2) * DG);
 	while (var.i <= NUM_OF_RAYS)

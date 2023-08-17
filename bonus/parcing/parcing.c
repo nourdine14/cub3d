@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:52:30 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/08 19:21:11 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/09 22:14:40 by nakebli          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parcing.h"
-
-void	print_map(t_cubt *cub)
-{
-	printf("Map: (height = %d)\n", cub->info->height);
-	while (cub)
-	{
-		printf("|%s|\n", cub->line);
-		cub = cub->next;
-	}
-}
 
 t_info	*init_infos(t_info **info)
 {
@@ -59,43 +49,6 @@ void	read_map(char *av, t_cubt **cub)
 		ft_lstadd_back(cub, ft_lstnew(line, info, ft_lstlast(*cub)));
 	}
 	close(fd);
-}
-
-void	print_args(t_info *info)
-{
-	int	i;
-
-	printf("Args:\n");
-	i = 0;
-	while (info->no[i])
-		printf("%s  ", info->no[i++]);
-	printf("\n");
-	i = 0;
-	while (info->so[i])
-		printf("%s  ", info->so[i++]);
-	printf("\n");
-	i = 0;
-	while (info->ea[i])
-		printf("%s  ", info->ea[i++]);
-	printf("\n");
-	i = 0;
-	while (info->we[i])
-		printf("%s  ", info->we[i++]);
-	printf("\n");
-	i = 0;
-	printf("flore RGB :");
-	while (i < 3)
-		printf("%d  ", info->f[i++]);
-	printf("\n");
-	i = 0;
-	printf("ceiling RGB :");
-	while (i < 3)
-		printf("%d  ", info->c[i++]);
-	printf("\n");
-	i = 0;
-	while (info->map[i])
-		printf("%s\n", info->map[i++]);
-	exit(0);
 }
 
 void	free_map(t_cubt *cub)
@@ -149,7 +102,5 @@ t_info	*parcing(char *av, t_cubt **cub)
 	delte_empty_lines(cub);
 	check_cardinal_direction(*cub);
 	info = get_info_map(*cub);
-	// print_map(*cub);
-	// print_args(info);
 	return (info);
 }
