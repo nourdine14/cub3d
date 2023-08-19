@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/14 16:41:26 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:54:21 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	get_x_y_position(t_player *player, char **map)
 
 	i = 0;
 	j = 0;
-	while (i < ROW)
+	while (i < height_of_map(map))
 	{
 		j = 0;
-		while (j < COL)
+		while (j < long_line2(map, i))
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'E' \
 				|| map[i][j] == 'S')

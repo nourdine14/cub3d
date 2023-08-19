@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/17 17:41:15 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:53:28 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,6 @@ typedef struct s_cub
 	t_img			side4;
 }	t_cub;
 
-
 t_info	*parcing(char *av, t_cubt **cub);
 char	*get_next_line(int fd);
 void	print_map(t_cubt *cub);
@@ -197,6 +196,7 @@ void	verticale(t_cub *info, t_ray *ray, float ray_angle);
 void	print_errors(char *str);
 
 int		long_line(char **map);
+int		long_line2(char **map, int i);
 int		height_of_map(char **map);
 
 int		has_wall(float x, float y, t_cub *info);
@@ -220,5 +220,6 @@ int		handle_keyrelease(int keycode, void *param);
 void	check_doors_distance_from_player(t_cub *info);
 int		combine_rgb_colors(int red, int green, int blue);
 void	init_doors_pos(t_cub *info, char **map);
+int		check_d2(t_cub *info);
 
 #endif

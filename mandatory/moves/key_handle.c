@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 19:09:59 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/19 17:53:11 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:48:02 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	free_info(t_cub *info)
 	free_2d(info->info->so);
 	free_2d(info->info->we);
 	free(info->info);
-	free(info->doors_pos);
 }
 
 int	handle_keypress(int keycode, void *param)
@@ -119,16 +118,6 @@ int	long_line(char **map)
 		i++;
 	}
 	return (x);
-}
-
-int	long_line2(char **map, int i)
-{
-	int	j;
-
-	j = 0;
-	while (map[i][j])
-		j++;
-	return (j);
 }
 
 int	height_of_map(char **map)

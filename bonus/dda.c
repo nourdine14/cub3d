@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:34 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/17 17:26:04 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:26:23 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ void	color_background(t_cub *info)
 {
 	color_half(info, 0, combine_rgb_colors(info->info->f[0], \
 		info->info->f[1], info->info->f[2]));
-	// printf("floor %d %d %d\n", info->info->f[0], info->info->f[1], info->info->f[2]);
-	// printf("ceil %d %d %d\n", info->info->c[0], info->info->c[1], info->info->c[2]);
-	// exit (0);
 	color_half(info, info->player->middle_of_screen, \
 		combine_rgb_colors(info->info->c[0], \
 		info->info->c[1], info->info->c[2]));

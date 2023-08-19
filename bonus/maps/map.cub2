@@ -1,9 +1,15 @@
 SO ./textures/side0.xpm
+
+
+
+
+
 NO ./textures/side1.xpm
 WE ./textures/side3.xpm
 EA ./textures/side4.xpm
 F	255,255,255
 C	10,10,10
+
         1111111111111111111111111
         1000000000110000000000001
         1011000001110000000000001

@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 05:09:32 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/19 17:54:34 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:44:25 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ float	diff_of_two_points(float x, float y, float x1, float y1)
 	return (sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y)));
 }
 
+int	long_line2(char **map, int ix)
+{
+	int	i;
+	int	j;
+	int	x;
+
+	i = 0;
+	x = 0;
+	j = 0;
+	while (map[ix][j])
+		j++;
+	return (j);
+}
+
 int	has_wall(float x, float y, t_cub *info)
 {
 	int	i;
@@ -24,9 +38,12 @@ int	has_wall(float x, float y, t_cub *info)
 
 	j = x / G_SIZE;
 	i = y / G_SIZE;
+
 	if (j > long_line2(info->player->map, i) || i > \
 	height_of_map(info->player->map) || i < 0 || j < 0)
+	{
 		return (1);
+	}
 	if (info->player->map[i][j] == '1')
 		return (1);
 	if (info->player->map[i][j] == 'D')

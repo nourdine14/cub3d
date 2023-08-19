@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:39:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/17 17:41:41 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:17:05 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,41 @@ int	close_win(void *param)
 	return (0);
 }
 
-void	drawing_and_hook(t_cub info)
+void	drawing_and_hook(t_cub *info)
 {
-	mlx_hook(info.mlx_win, 17, 0, close_win, &info);
-	mlx_hook(info.mlx_win, 2, 0, handle_keypress, &info);
-	mlx_hook(info.mlx_win, 3, 0, handle_keyrelease, &info);
-	mlx_hook(info.mlx_win, 6, 0, handle_mouse_move, &info);
-	mlx_loop_hook(info.mlx, move_and_draw, &info);
+	mlx_hook(info->mlx_win, 17, 0, close_win, info);
+	mlx_hook(info->mlx_win, 2, 0, handle_keypress, info);
+	mlx_hook(info->mlx_win, 3, 0, handle_keyrelease, info);
+	mlx_hook(info->mlx_win, 6, 0, handle_mouse_move, info);
+	mlx_loop_hook(info->mlx, move_and_draw, info);
+}
+
+int	check_name(char *str)
+{
+	int		i;
+	int		j;
+	char	test[5];
+
+	i = 0;
+	test[0] = '.';
+	test[1] = 'c';
+	test[2] = 'u';
+	test[3] = 'b';
+	test[4] = '\0';
+	while (str[i])
+		i++;
+	if (i <= 4)
+		return (0);
+	j = i - 4;
+	i = 0;
+	while (str[j])
+	{
+		if (str[j] != test[i])
+			return (0);
+		j++;
+		i++;
+	}
+	return (1);
 }
 
 int	main(int ac, char **av)
@@ -87,7 +115,7 @@ int	main(int ac, char **av)
 	t_info		*info2;
 	t_cubt		*cub;
 
-	if (ac != 2)
+	if (ac != 2 || !check_name(av[1]))
 		print_errors("Error !");
 	info2 = parcing(av[1], &cub);
 	info.player = &player;
@@ -99,7 +127,7 @@ int	main(int ac, char **av)
 		return (printf("Error init window\n"), 1);
 	info.mlx_win = mlx_new_window(info.mlx, COL * 64, \
 		ROW * 64, "Cub3D");
-	drawing_and_hook(info);
+	drawing_and_hook(&info);
 	mlx_loop(info.mlx);
 	return (0);
 }

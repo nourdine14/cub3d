@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:07:23 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/17 20:06:18 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:57:43 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,9 @@ void	draw_wall(t_cub *info, t_ray *ray, float ray_angle, int i)
 
 	get_distance(ray, info, ray_angle);
 	wall_projected = (25000 / ray->ray_dist);
+	if (wall_projected > 2000)
+		wall_projected = 2000;
 	img = get_img_side(ray, info, ray_angle);
-	if ((is_door(ray->ix, ray->iy, info)))
-	{
-		if (is_door_face(info, ray))
-			img = info->door;
-		else
-			img = info->doorside;
-	}
 	info->x = i;
 	info->y = (info->player->middle_of_screen) - (wall_projected);
 	info->height = 2 * wall_projected;

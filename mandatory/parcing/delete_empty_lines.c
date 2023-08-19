@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 05:08:08 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/08 19:16:37 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:42:38 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	is_map_line(char *line)
 		if (line[i] != '1' && line[i] != '0' && \
 		line[i] != ' ' && line[i] != '\t' && \
 		line[i] != 'N' && line[i] != 'S' && \
-		line[i] != 'W' && line[i] != 'E')
+		line[i] != 'W' && line[i] != 'E' && \
+		line[i] != 'D' && line[i] != 'C')
 			return (0);
 		i++;
 	}
@@ -71,7 +72,7 @@ void	delete_prefixes_empty_lines(t_cubt **cub, t_cubt *tmp)
 		}
 	}
 	if (tmp == NULL)
-		print_errors("Error : No map");
+		print_errors("Error\nNo map");
 }
 
 void	delte_empty_lines(t_cubt **cub)
@@ -89,5 +90,20 @@ void	delte_empty_lines(t_cubt **cub)
 		tmp->next = NULL;
 		free(to_delete->line);
 		free(to_delete);
+	}
+}
+
+void	check_doors(t_cubt *cub, int i, int j)
+{
+	(void)j;
+	if (is_a_door(cub->line[i]))
+	{
+		if ((cub->line[i + 1] == '1' && cub->line[i - 1] == '1' && \
+			cub->prev->line[i] == '0' && cub->next->line[i] == '0') || \
+			(cub->line[i + 1] == '0' && cub->line[i - 1] == '0' && \
+			cub->prev->line[i] == '1' && cub->next->line[i] == '1'))
+			return ;
+		else
+			print_errors("Error\nInvalid door");
 	}
 }

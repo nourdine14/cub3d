@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 05:14:00 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/18 18:53:30 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:38:54 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,6 @@ void	full_images3(t_cub *info, int x, int y)
 	&info->side4.bpp, &info->side4.line_len, &info->side4.endian);
 	info->side4.height = y;
 	info->side4.width = x;
-	info->door.img_ptr = mlx_xpm_file_to_image(info->mlx, \
-	"textures/door_elon.xpm", &x, &y);
-	if (!info->door.img_ptr)
-		print_errors("Error image couldn't load");
-	info->door.addr = mlx_get_data_addr(info->door.img_ptr, \
-	&info->door.bpp, &info->door.line_len, &info->door.endian);
-	info->door.height = y;
-	info->door.width = x;
-	info->doorside.img_ptr = mlx_xpm_file_to_image(info->mlx, \
-		"textures/door_elon_side.xpm", &x, &y);
-	if (!info->doorside.img_ptr)
-		print_errors("Error image couldn't load");
-	info->doorside.addr = mlx_get_data_addr(info->doorside.img_ptr, \
-	&info->doorside.bpp, &info->doorside.line_len, &info->doorside.endian);
-	info->doorside.height = y;
-	info->doorside.width = x;
 }
 
 void	full_images2(t_cub *info, int x, int y)
@@ -101,12 +85,6 @@ void	full_images(t_cub *info)
 		print_errors("Error image couldn't load");
 	info->img.addr = mlx_get_data_addr(info->img.img_ptr, &info->img.bpp, \
 		&info->img.line_len, &info->img.endian);
-	info->gun1.img_ptr = mlx_xpm_file_to_image(info->mlx, \
-	"textures/gun1.xpm", &x, &y);
-	if (!info->gun1.img_ptr)
-		print_errors("Error image couldn't load");
-	info->gun1.addr = mlx_get_data_addr(info->gun1.img_ptr, &info->gun1.bpp, \
-		&info->gun1.line_len, &info->gun1.endian);
 	info->side1.img_ptr = mlx_xpm_file_to_image(info->mlx, \
 	info->info->no[1], &x, &y);
 	if (!info->side1.img_ptr)
@@ -120,18 +98,11 @@ int	move_and_draw(void *param)
 
 	info = (t_cub *)param;
 	full_images(info);
-	check_doors_distance_from_player(info);
 	color_background(info);
 	draw_rays(info);
-	draw_map(info, info->player->map);
-	draw_player(info, info->player);
 	move_player(info->player, info);
-	draw_hp_len(info, info->player->hp);
 	mlx_clear_window(info->mlx, info->mlx_win);
 	mlx_put_image_to_window(info->mlx, info->mlx_win, info->img.img_ptr, 0, 0);
-	mlx_put_image_to_window(info->mlx, info->mlx_win, \
-		info->gun1.img_ptr, 450, 185);
-	mlx_string_put(info->mlx, info->mlx_win, 750, 10, 0x000000, "Bullet : +99");
 	mlx_destroy_image(info->mlx, info->img.img_ptr);
 	return (0);
 }

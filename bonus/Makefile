@@ -26,9 +26,9 @@ SRCS =	main.c \
 
 OBJS = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra  -g -fsanitize=address,undefined
 
-MLXFLAGS = -lmlx -framework OpenGL -framework AppKit -fsanitize=address
+MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
 
 HEADER = cub3d.h
 
@@ -42,7 +42,7 @@ all: $(NAME) $(OBJS) $(HEADER)
 	@printf "\033[0;32m{compiling : %-30s .....} \r" ${notdir $@} 
 
 $(NAME): $(OBJS) $(HEADER)
-	cc $(MLXFLAGS) -o $(NAME) $(OBJS)
+	cc $(MLXFLAGS) $(CFLAGS) -o $(NAME) $(OBJS)
 
 clean:
 	$(RM) $(OBJS)

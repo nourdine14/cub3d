@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:32:28 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/08 19:09:59 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:15:53 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	towd_arr_size(char **arr)
 	int	i;
 
 	i = 0;
+	if (!arr || !arr[0])
+		return (0);
 	while (arr[i] != NULL)
 		i++;
 	return (i);
