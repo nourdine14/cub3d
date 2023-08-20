@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_directions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 09:47:16 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/15 20:12:24 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:52:01 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	split_params_check_rep(t_cubt *cub, char ***f, char ***c)
 	else if (cub->line && cub->line[i] == 'C' && !*c)
 		*c = ft_split(cub->line, ' ');
 	else
-		print_errors("Error : Invalid cardinal direction or flor or ceiling");
+		print_errors("Error\nInvalid cardinal direction or flor or ceiling");
 }
 
 int	check_validity(char *str)
@@ -71,9 +71,9 @@ void	check_args_validity(t_cubt *cub, char **f, char **c)
 		ft_strcmp(cub->info->ea[0], "EA") || \
 		ft_strcmp(f[0], "F") || \
 		ft_strcmp(c[0], "C"))
-		print_errors("Error : Invalid cardinal direction or flor or ceiling");
+		print_errors("Error\nInvalid cardinal direction or flor or ceiling");
 	if (!check_validity(f[1]) || !check_validity(c[1]))
-		print_errors("Error : Invalid RGB value");
+		print_errors("Error\nInvalid RGB value");
 }
 
 int	wall_surounded(t_cubt *cub, int j)
@@ -98,7 +98,7 @@ int	wall_surounded(t_cubt *cub, int j)
 				cub->info->py = j;
 			}
 			else
-				print_errors("Error: double player position");
+				print_errors("Error\ndouble player position");
 		}
 		check_doors(cub, i, j);
 	}

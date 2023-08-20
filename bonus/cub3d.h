@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 12:35:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/19 17:53:28 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 23:22:05 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define G_SIZE 64
 # define COL 15
 # define ROW 11
-# define MOVE_SPEED 4
+# define MOVE_SPEED 5
 # define ROTATION_SPEED 0.05
 # define NUM_OF_RAYS 960
 # define VIEW_ANGLE 60 // in degree
@@ -200,6 +200,7 @@ int		long_line2(char **map, int i);
 int		height_of_map(char **map);
 
 int		has_wall(float x, float y, t_cub *info);
+int		has_wall_only(float x, float y, t_cub *info);
 int		has_wall2(float x, float y, t_cub *info);
 
 void	move_player(t_player *player, t_cub *info);
@@ -221,5 +222,6 @@ void	check_doors_distance_from_player(t_cub *info);
 int		combine_rgb_colors(int red, int green, int blue);
 void	init_doors_pos(t_cub *info, char **map);
 int		check_d2(t_cub *info);
+int		check_name(char *str);
 
 #endif

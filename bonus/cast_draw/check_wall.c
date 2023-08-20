@@ -6,16 +6,11 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 05:09:32 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/19 17:54:34 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:01:03 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-float	diff_of_two_points(float x, float y, float x1, float y1)
-{
-	return (sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y)));
-}
 
 int	has_wall(float x, float y, t_cub *info)
 {
@@ -30,6 +25,21 @@ int	has_wall(float x, float y, t_cub *info)
 	if (info->player->map[i][j] == '1')
 		return (1);
 	if (info->player->map[i][j] == 'D')
+		return (1);
+	return (0);
+}
+
+int	has_wall_only(float x, float y, t_cub *info)
+{
+	int	i;
+	int	j;
+
+	j = x / G_SIZE;
+	i = y / G_SIZE;
+	if (j > long_line2(info->player->map, i) || i > \
+	height_of_map(info->player->map) || i < 0 || j < 0)
+		return (1);
+	if (info->player->map[i][j] == '1')
 		return (1);
 	return (0);
 }
@@ -69,16 +79,20 @@ int	is_door(float x, float y, t_cub *info)
 	int	i;
 	int	j;
 
-	j = x / G_SIZE;
 	i = y / G_SIZE;
-	if (info->player->map[i][j] == 'D' || info->player->map[i][j] == 'C')
-		return (1);
 	j = (x + 1) / G_SIZE;
-	i = (y + 1) / G_SIZE;
 	if (info->player->map[i][j] == 'D' || info->player->map[i][j] == 'C')
 		return (1);
-	j = (x - 1) / G_SIZE;
+	i = (y + 1) / G_SIZE;
+	j = x / G_SIZE;
+	if (info->player->map[i][j] == 'D' || info->player->map[i][j] == 'C')
+		return (1);
 	i = (y - 1) / G_SIZE;
+	j = x / G_SIZE;
+	if (info->player->map[i][j] == 'D' || info->player->map[i][j] == 'C')
+		return (1);
+	i = y / G_SIZE;
+	j = (x - 1) / G_SIZE;
 	if (info->player->map[i][j] == 'D' || info->player->map[i][j] == 'C')
 		return (1);
 	return (0);

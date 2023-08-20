@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_empty_lines.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 05:08:08 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/15 20:12:39 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:52:14 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	delete_prefixes_empty_lines(t_cubt **cub, t_cubt *tmp)
 		}
 	}
 	if (tmp == NULL)
-		print_errors("Error : No map");
+		print_errors("Error\nNo map");
 }
 
 void	delte_empty_lines(t_cubt **cub)
@@ -104,6 +104,6 @@ void	check_doors(t_cubt *cub, int i, int j)
 			cub->prev->line[i] == '1' && cub->next->line[i] == '1'))
 			return ;
 		else
-			print_errors("Error : Invalid door");
+			print_errors("Error\nInvalid door");
 	}
 }

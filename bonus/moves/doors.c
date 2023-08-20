@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:56:10 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/18 18:04:23 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:00:31 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,13 @@ void	check_doors_distance_from_player(t_cub *info)
 	{
 		if ((diff_of_two_points(info->player->x - 25, \
 			info->player->y - 25, info->doors_pos[i] * G_SIZE, \
-			info->doors_pos[i + 1] * G_SIZE) < 100) && info->player->open)
+			info->doors_pos[i + 1] * G_SIZE) < 100) && info->player->open == 1)
 			info->player->map[info->doors_pos[i + 1]][info->doors_pos[i]] = 'C';
 		else if ((diff_of_two_points(info->player->x - 25, \
 		info->player->y - 25, info->doors_pos[i] * G_SIZE, \
 			info->doors_pos[i + 1] * G_SIZE) <= 100) \
-			&& !info->player->open && (diff_of_two_points(info->player->x - 25, \
+			&& info->player->open == 0 && \
+			(diff_of_two_points(info->player->x - 25, \
 			info->player->y - 25, info->doors_pos[i] * G_SIZE, \
 			info->doors_pos[i + 1] * G_SIZE) > 64))
 			info->player->map[info->doors_pos[i + 1]][info->doors_pos[i]] = 'D';
@@ -103,7 +104,7 @@ int	check_d2(t_cub *info)
 			info->doors_pos[i + 1] * G_SIZE) <= 100) \
 			&& (diff_of_two_points(info->player->x - 32, \
 			info->player->y - 32, info->doors_pos[i] * G_SIZE, \
-			info->doors_pos[i + 1] * G_SIZE) > 64) && info->player->open)
+			info->doors_pos[i + 1] * G_SIZE) > 64))
 			return (2);
 		if ((diff_of_two_points(info->player->x - 32, \
 			info->player->y - 32, info->doors_pos[i] * G_SIZE, \

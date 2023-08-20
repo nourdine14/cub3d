@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 02:41:57 by nakebli           #+#    #+#             */
-/*   Updated: 2023/07/31 02:53:08 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:52:41 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int	ft_atoi(const char *str)
 		prev = value;
 		value = value * 10 + (str[i] - 48);
 		if (ft_isoverflow(prev, value) == 1)
-			print_errors("Error : Invalid map");
+			print_errors("Error\nInvalid map");
 		i++;
 	}
 	if (str[i] != '\0' && (str[i] < '0' || str[i] > '9'))
-		print_errors("Error : Invalid map");
+		print_errors("Error\nInvalid map");
 	return (*signe * value);
 }

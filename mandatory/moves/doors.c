@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:56:10 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/18 18:04:23 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:09:51 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	continue_full(t_cub *info, int num_of_doors, char **map)
 {
 	int	i;
 	int	j;
+
 
 	num_of_doors *= 2;
 	info->num_of_doors = num_of_doors;

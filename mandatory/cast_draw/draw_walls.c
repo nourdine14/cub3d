@@ -6,18 +6,11 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:07:23 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/19 16:57:43 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:43:29 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-bool	ray_lookig_up(double angle)
-{
-	if (angle < M_PI && angle > 0)
-		return (false);
-	return (true);
-}
 
 bool	ray_lookig_left(double angle)
 {

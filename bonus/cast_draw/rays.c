@@ -6,11 +6,16 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 17:56:05 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/14 14:32:36 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:01:13 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+float	diff_of_two_points(float x, float y, float x1, float y1)
+{
+	return (sqrt((x1 - x) * (x1 - x) + (y1 - y) * (y1 - y)));
+}
 
 void	init_var(t_var *var)
 {

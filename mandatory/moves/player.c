@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/19 17:05:01 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:48:29 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	update_angle(t_player *player, char flag)
 	if (flag == 'N')
 		player->rotation_angle = -M_PI_2;
 	if (flag == 'E')
-		player->rotation_angle = -M_PI;
-	if (flag == 'W')
 		player->rotation_angle = M_PI;
+	if (flag == 'W')
+		player->rotation_angle = 0;
 	if (flag == 'S')
 		player->rotation_angle = M_PI_2;
 	player->turn_d = 1;

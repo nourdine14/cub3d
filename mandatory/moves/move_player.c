@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 18:06:23 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/19 16:56:28 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:42:40 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,12 @@ void	move_player2(t_cub *info, float dx, float dy)
 		info->player->y -= dy;
 }
 
-void	redraw_in_move(t_cub *info, t_player *player, int *counter)
-{
-	info->gun1.img_ptr = mlx_xpm_file_to_image(info->mlx, "textures/gun2.xpm", \
-	&player->x1, &player->y1);
-	free(info->gun1.addr);
-	info->gun1.addr = mlx_get_data_addr(info->gun1.img_ptr, &info->gun1.bpp, \
-		&info->gun1.line_len, &info->gun1.endian);
-	if (*counter > 10)
-	{
-		player->shot = 0;
-		player->stop = 1;
-		*counter = 0;
-	}
-}
-
 void	move_player(t_player *player, t_cub *info)
 {
 	float		angle;
 	float		dx;
 	float		dy;
-	static int	counter;
 
-	if (!player->shot)
-		counter = 0;
 	angle = player->rotation_angle;
 	angle = scale_angle(angle);
 	dx = cos(angle) * MOVE_SPEED;
@@ -65,9 +47,6 @@ void	move_player(t_player *player, t_cub *info)
 		player->rotation_angle -= ROTATION_SPEED;
 	if (player->rotate_right)
 		player->rotation_angle += ROTATION_SPEED;
-	if (player->shot)
-		redraw_in_move(info, player, &counter);
-	counter++;
 }
 
 int	handle_mouse_move(int x, int y, t_cub *info)
@@ -88,4 +67,34 @@ int	handle_mouse_move(int x, int y, t_cub *info)
 		dy < 0 && info->player->middle_of_screen < (1500 - 100))
 		info->player->middle_of_screen += 2;
 	return (0);
+}
+
+int	long_line(char **map)
+{
+	int	i;
+	int	j;
+	int	x;
+
+	i = 0;
+	x = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+			j++;
+		if (j > x)
+			x = j;
+		i++;
+	}
+	return (x);
+}
+
+int	height_of_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+		i++;
+	return (i);
 }

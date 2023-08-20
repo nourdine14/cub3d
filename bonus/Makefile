@@ -22,11 +22,12 @@ SRCS =	main.c \
 		moves/player.c \
 		moves/moves.c \
 		moves/doors.c \
+		moves/calcul_map.c \
 		dda.c \
 
 OBJS = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Werror -Wextra  -g -fsanitize=address,undefined
+CFLAGS = -Wall -Werror -Wextra
 
 MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
 

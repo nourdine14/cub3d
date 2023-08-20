@@ -6,11 +6,18 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 04:52:06 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/14 15:45:25 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:43:21 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+bool	ray_lookig_up(double angle)
+{
+	if (angle < M_PI && angle > 0)
+		return (false);
+	return (true);
+}
 
 void	ft_put_pixel2(t_player *player, t_cub *info, int a, int b)
 {
@@ -68,7 +75,8 @@ void	draw_line_of_texture(t_cub info, t_img *img, t_ray ray)
 	t = (unsigned int *)img->addr;
 	while (info.height--)
 	{
-		offset = ((int)ycount * img->height) + (offsetx * (img->width / G_SIZE));
+		offset = ((int)ycount * img->height) + \
+		(offsetx * (img->width / G_SIZE));
 		if (info.x >= 0 && info.y >= 0 && info.x < G_SIZE * COL && \
 		info.y < G_SIZE * ROW)
 			my_mlx_pixel_put(&info.img, info.x, info.y, t[offset]);

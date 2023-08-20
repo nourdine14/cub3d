@@ -6,25 +6,11 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:07:23 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/17 20:06:18 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:05:54 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-bool	ray_lookig_up(double angle)
-{
-	if (angle < M_PI && angle > 0)
-		return (false);
-	return (true);
-}
-
-bool	ray_lookig_left(double angle)
-{
-	if (angle < M_PI_2 || angle > 3 * M_PI_2)
-		return (false);
-	return (true);
-}
 
 static void	get_distance(t_ray *ray, t_cub *info, float ray_angle)
 {
@@ -72,22 +58,24 @@ static t_img	get_img_side(t_ray *ray, t_cub *info, float ray_angle)
 	}
 }
 
-int	is_door_face(t_cub *info, t_ray *ray)
+int	is_door_face(t_cub *info, t_ray *ray, float ray_angle)
 {
-	if ((ray->xhit < ray->yhit && \
-			((has_wall((floor(ray->ix / G_SIZE) * G_SIZE) - 1, \
-			ray->iy - 1, info) && \
-			has_wall((ceil(ray->ix / G_SIZE) * G_SIZE) + 1, ray->iy - 1, \
-			info)) || (has_wall((floor(ray->ix / G_SIZE) * G_SIZE) - 1, \
-			ray->iy + 1, info) && has_wall((ceil(ray->ix / G_SIZE) * G_SIZE) \
-			+ 1, ray->iy + 1, info)))) || (ray->yhit < ray->xhit && \
-			((has_wall(ray->ix - 1, (floor(ray->iy / G_SIZE) * G_SIZE) \
-			- 1, info) && has_wall(ray->ix - 1, (ceil(ray->iy / G_SIZE) * \
-			G_SIZE) + 1, info)) || (has_wall(ray->ix + 1, (floor(ray->iy / \
-			G_SIZE) * G_SIZE) - 1, info) && has_wall(ray->ix + 1, (ceil(ray->iy \
-			/ G_SIZE) * G_SIZE) + 1, info)))))
-		return (1);
-	return (0);
+	int	k;
+	int	l;
+
+	if (ray_lookig_left(ray_angle))
+		k = -1;
+	else
+		k = 1;
+	if (ray_lookig_up(ray_angle))
+		l = -1;
+	else
+		l = 1;
+	if (ray->xhit <= ray->yhit && has_wall_only(ray->ix, ray->iy + l, info))
+		return (0);
+	if (ray->yhit < ray->xhit && has_wall_only(ray->ix + k, ray->iy, info))
+		return (0);
+	return (1);
 }
 
 void	draw_wall(t_cub *info, t_ray *ray, float ray_angle, int i)
@@ -100,7 +88,7 @@ void	draw_wall(t_cub *info, t_ray *ray, float ray_angle, int i)
 	img = get_img_side(ray, info, ray_angle);
 	if ((is_door(ray->ix, ray->iy, info)))
 	{
-		if (is_door_face(info, ray))
+		if (is_door_face(info, ray, ray_angle))
 			img = info->door;
 		else
 			img = info->doorside;

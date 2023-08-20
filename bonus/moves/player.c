@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:20:13 by oaboulgh          #+#    #+#             */
-/*   Updated: 2023/08/19 17:54:21 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:02:53 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	full_player_info(t_player *player, char c, int i, int j)
 	MOVE_SPEED * cos(player->rotation_angle) + G_SIZE / 2;
 	player->y = (j * G_SIZE) + \
 	MOVE_SPEED * sin(player->rotation_angle) + G_SIZE / 2;
-	player->mouse_x = player->x;
-	player->mouse_y = player->y;
+	player->mouse_x = 0;
+	player->mouse_y = 0;
 	if (c == 'N')
 		update_angle(player, c);
 	if (c == 'E')

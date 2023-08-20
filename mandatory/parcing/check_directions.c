@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 09:47:16 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/19 21:04:31 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:34:38 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,6 @@ void	check_args_validity(t_cubt *cub, char **f, char **c)
 	if (!check_validity(f[1]) || !check_validity(c[1]))
 		print_errors("Error\nInvalid RGB value");
 }
-/*(cub->line[i + 1] == ' ' || cub->line[i + 1] == '\0' \
-			|| i == 0 || cub->line[i - 1] == ' ' ||!cub->prev->line || \
-			((int)ft_strlen(cub->prev->line) - 1) < i || !cub->next || \
-			cub->prev->line[i] == ' ' || !cub->prev->line[i] || \
-			cub->next->line[i] == ' ' || cub->next->line[i] == '\0')*/
-
-int	is_valid_side(char c)
-{
-	if (c == '1' || c == '0' || is_player(c))
-		return (1);
-	return (0);
-}
 
 int	wall_surounded(t_cubt *cub, int j)
 {
@@ -95,12 +83,13 @@ int	wall_surounded(t_cubt *cub, int j)
 	i = -1;
 	while (cub->line[++i])
 	{
-		if ((cub->line[i] == '0' || is_player(cub->line[i])) && \
-			( !cub->next || !cub->prev || (int)ft_strlen(cub->next->line) - 1 < i || \
-			(int)ft_strlen(cub->prev->line) - 1 < i || \
-			!is_valid_side(cub->line[i + 1]) || !is_valid_side(cub->line[i - 1]) || \
-			!is_valid_side(cub->next->line[i]) || !is_valid_side(cub->prev->line[i])))
-			return (printf("wall surounded\n"), 0);
+		if ((cub->line[i] == '0' || is_player(cub->line[i])) \
+			&& (cub->line[i + 1] == ' ' || cub->line[i + 1] == '\0' \
+			|| i == 0 || cub->line[i - 1] == ' ' ||!cub->prev->line || \
+			((int)ft_strlen(cub->prev->line) - 1) < i || !cub->next || \
+			cub->prev->line[i] == ' ' || !cub->prev->line[i] || \
+			cub->next->line[i] == ' ' || cub->next->line[i] == ' '))
+			return (0);
 		if (is_player(cub->line[i]))
 		{
 			if (cub->info->px == -1 && cub->info->py == -1)
@@ -111,7 +100,6 @@ int	wall_surounded(t_cubt *cub, int j)
 			else
 				print_errors("Error\ndouble player position");
 		}
-		check_doors(cub, i, j);
 	}
 	return (1);
 }

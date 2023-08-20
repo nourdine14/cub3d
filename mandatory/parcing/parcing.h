@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakebli <nakebli@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:53:08 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/15 20:13:02 by nakebli          ###   ########.fr       */
+/*   Updated: 2023/08/20 20:34:58 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,5 @@ void	free_2d_arr(char **arr);
 int		is_player(char c);
 void	check_map(t_cubt *tmp, t_cubt *cub);
 int		wall_surounded(t_cubt *cub, int j);
-int		is_a_door(char c);
-void	check_doors(t_cubt *cub, int i, int j);
 
 #endif

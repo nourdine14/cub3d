@@ -6,7 +6,7 @@
 /*   By: oaboulgh <oaboulgh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:52:30 by nakebli           #+#    #+#             */
-/*   Updated: 2023/08/19 20:19:07 by oaboulgh         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:53:05 by oaboulgh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	read_map(char *av, t_cubt **cub)
 	init_infos(&info);
 	fd = open(av, O_RDONLY);
 	if (fd == -1)
-		print_errors("Error\ncan't open file");
+		print_errors("Error\n open error");
 	*cub = ft_lstnew(ft_strtrim(get_next_line(fd), "\n"), info, NULL);
-	if (!(*cub) || (*cub)->line == NULL)
+	if ((*cub)->line == NULL)
 		print_errors("Error\n");
 	info->height = 0;
 	while (1)
