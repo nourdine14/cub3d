@@ -1,0 +1,1 @@
+resource https://en.wikipedia.org/wiki/Pixel#Subpixels
